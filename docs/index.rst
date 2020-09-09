@@ -3,16 +3,11 @@ Secure-Meeting Documentation
 Hello World!
 
 
-roomManagment
+microservices
 -----------
-I do be managing rooms
 
- :doc:`With Sphinx </roomManagment/roomManagment>` |
+ :doc:`roomManagment </roomManagment/roomManagment>`
+ :doc:`signalling </signalling/signalling>`
 
-signalling
------------
-I find the best server
-
- :doc:`With Sphinx </signalling/signalling>` |
 
 
