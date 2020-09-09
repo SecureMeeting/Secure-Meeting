@@ -1,5 +1,5 @@
 {
-  "name": "roommanagement",
+  "name": "roomManagement",
   "version": "1.0.0",
   "description": "Manages rooms for webrtc video calls for SecureMeeting",
   "main": "server.js",
