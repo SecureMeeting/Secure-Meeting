@@ -1,13 +1,18 @@
+============================
 Secure-Meeting Documentation
 ============================
 
 Hello World! this is a description
 
 
-microservices
--------------
+Microservices
+=============
 
- * :doc:`roomManagment </roomManagment/roomManagment>`
- * :doc:`signalling </signalling/signalling>`
+* **Room Managment** :doc:`roomManagment </roomManagment/roomManagment>`:
 
-git -m 
+    Deals with managing rooms
+
+* **Signalling** :doc:`signalling </signalling/signalling>`:
+
+    Deals with signalling
+
