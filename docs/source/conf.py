@@ -20,8 +20,8 @@
 # -- Project information -----------------------------------------------------
 
 project = u'Secure-Meeting'
-copyright = u'2020, Bryan Kyritz, Andrew D\'Angelo'
-author = u'Bryan Kyritz, Andrew D\'Angelo'
+copyright = u'2020, Bryan Kyritz and Andrew D\'Angelo'
+author = u'Bryan Kyritz and Andrew D\'Angelo'
 
 # The short X.Y version
 version = u''
@@ -38,10 +38,11 @@ release = u'1.0.0'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['recommonmark']
+extensions = [
+]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['ntemplates']
+templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -84,7 +85,7 @@ html_theme = 'alabaster'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['nstatic']
+html_static_path = ['_static']
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
@@ -128,7 +129,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'Secure-Meeting.tex', u'Secure-Meeting Documentation',
-     u'Bryan Kyritz, Andrew D\'Angelo', 'manual'),
+     u'Bryan Kyritz and Andrew D\'Angelo', 'manual'),
 ]
 
 
