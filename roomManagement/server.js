@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
-var server = require("http").Server();
+var https = require("https");
+var fs = require("fs");
 const colors = require("colors");
 const connectDB = require("./config/db");
 const config = require("./config.json");
@@ -13,7 +14,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 const PORT = process.env.PORT || config.port;
-app.listen(PORT, console.log(`Server running on port ${PORT}`.yellow.bold));
+
+const tls = {
+  cert: fs.readFileSync(config.tls.cert),
+  key: fs.readFileSync(config.tls.key),
+};
+
+https.createServer(tls, app).listen(config.port, function () {
+  console.log(`HTTPS Server running on port ${PORT}`.yellow.bold);
+});
 
 /* -------------------------------------------------------------------------- */
 /*                               Api ROUTES                                   */

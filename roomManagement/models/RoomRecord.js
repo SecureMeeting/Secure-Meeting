@@ -12,6 +12,10 @@ const RoomRecordSchema = new Schema(
       type: String,
       required: true,
     },
+    scheduledTime: {
+      type: String,
+      required: false,
+    },
     createdBy: {
       type: String,
       required: true,
@@ -23,7 +27,7 @@ const RoomRecordSchema = new Schema(
     members: [
       {
         type: String,
-        required: true,
+        required: false,
       },
     ],
   },

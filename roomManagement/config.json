@@ -2,5 +2,11 @@
   "atlasuri": "mongodb+srv://admin:admin@cluster0.vyxuq.mongodb.net/Rooms?retryWrites=true&w=majority",
   "port": 5000,
   "collectionName": "Rooms",
-  "dbName": "Rooms"
+  "dbName": "Rooms",
+  "saltRounds": 10,
+  "secretKey": "launchpad2022",
+  "tls": {
+    "cert": "./certs/fullchain.pem",
+    "key": "./certs/privkey.pem"
+  }
 }

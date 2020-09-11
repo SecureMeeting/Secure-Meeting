@@ -1,17 +1,21 @@
 const express = require("express");
 const router = express.Router();
 const checkAuth = require("../middleware/check-auth");
-const roomController = require("../controllers/roomController");
+const authRoomController = require("../controllers/authRoomController");
+const createRoomController = require("../controllers/createRoomController");
+const deleteRoomController = require("../controllers/deleteRoomController");
+const getRoomController = require("../controllers/getRoomController");
+const scheduleRoomController = require("../controllers/scheduleRoomController");
 //Local imports-----------------------------------------
 
-router.route("/create").post(roomController.createRoom);
+router.route("/create").post(createRoomController.createRoom);
 
-router.route("/delete").delete(roomController.deleteRoom);
+router.route("/delete").delete(deleteRoomController.deleteRoom);
 
-router.route("/get").get(roomController.getRoom);
+router.route("/get").get(getRoomController.getRoom);
 
-router.route("/schedule").post(roomController.scheduleRoom);
+router.route("/schedule").post(scheduleRoomController.scheduleRoom);
 
-router.route("/auth").post(roomController.authenticateRoom);
+router.route("/auth").post(authRoomController.authenticateRoom);
 
 module.exports = router;
