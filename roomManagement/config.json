@@ -1,6 +1,6 @@
 {
   "atlasuri": "mongodb+srv://admin:admin@cluster0.vyxuq.mongodb.net/Rooms?retryWrites=true&w=majority",
-  "port": 5000,
+  "port": 8080,
   "collectionName": "Rooms",
   "dbName": "Rooms",
   "saltRounds": 10,
