@@ -28,6 +28,10 @@ https.createServer(tls, app).listen(config.port, function () {
 /*                               Api ROUTES                                   */
 /* -------------------------------------------------------------------------- */
 
+app.get("/", function (req, res) {
+  res.send("Hello World!");
+});
+
 const roomRouter = require("./routes/room");
 app.use("/room", roomRouter);
 
