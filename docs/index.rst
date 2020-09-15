@@ -3,8 +3,25 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Read the Docs Template's documentation!
-==================================================
+Secure Meeting API documentation!
+=================================
+
+A series of apis that initiate and maintain webrtc connections.
+
+
+Base URL
+^^^^^^^^
+
+``www.api.securemeeting.org``   
+
+
+Microservices
+^^^^^^^^^^^^^
+
+- Room Management
+- Authentication
+- Signalling
+
 
 Contents:
 
@@ -13,13 +30,4 @@ Contents:
    :glob:
 
    *
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 

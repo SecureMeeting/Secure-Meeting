@@ -8,7 +8,7 @@ When a room is established a call can now take place in it.
 Base URL
 ^^^^^^^^^^^^^
 
-``www.api.securemeeting.org``   
+``www.api.securemeeting.org/auth``   
 
 
 Endpoints

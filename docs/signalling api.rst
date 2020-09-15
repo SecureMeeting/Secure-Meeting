@@ -6,9 +6,9 @@ Room Management deals with creating, updating, and deleting a room.
 When a room is established a call can now take place in it.
 
 Base URL
-^^^^^^^^^^^^^
+^^^^^^^^
 
-``www.api.securemeeting.org``   
+``www.api.securemeeting.org/signalling``   
 
 
 Endpoints
