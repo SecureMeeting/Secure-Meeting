@@ -1,7 +1,7 @@
 Room Management Api
 +++++++++++++++++++
 
-In order to create a place to communicate, you must create a *ROOM*. 
+In order to create a place to communicate, you must create a **ROOM**. 
 Room Management deals with creating, updating, and deleting a room.
 When a room is established a call can now take place in it.
 
