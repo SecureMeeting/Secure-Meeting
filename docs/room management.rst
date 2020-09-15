@@ -11,6 +11,20 @@ Base URL
 ``www.api.securemeeting.org``   
 
 
+Endpoints
+^^^^^^^^^
++---------+---------+-------------------+
+| POST   Create Room     /room/create   |
++---------+---------+-------------------+
+| GET    Get Room        /room/get      |
++---------+---------+-------------------+
+| DEL    Delete Room     /room/delete   |
++---------+---------+-------------------+
+| POST   Schedule Room   /room/schedule |
++---------+---------+-------------------+
+| POST   Auth Room       /room/auth     |
++---------+---------+-------------------+
+
 Room Model
 ^^^^^^^^^^
 
@@ -58,20 +72,6 @@ Attributes
 
 ``members`` *array[string]*
   The id's of the members allowed to join the room.
-
-Endpoints
-^^^^^^^^^
-+---------+---------+-------------------+
-| POST   Create Room     /room/create   |
-+---------+---------+-------------------+
-| GET    Get Room        /room/get      |
-+---------+---------+-------------------+
-| DEL    Delete Room     /room/delete   |
-+---------+---------+-------------------+
-| POST   Schedule Room   /room/schedule |
-+---------+---------+-------------------+
-| POST   Auth Room       /room/auth     |
-+---------+---------+-------------------+
 
 Create a Room
 ^^^^^^^^^^^^^
