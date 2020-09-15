@@ -27,6 +27,7 @@ A room is a place where a all takes place.
     ],
     "roomName":"castle",
     "timeCreated":"2020-09-14T17:00:52+00:00",
+    "scheduledTime": "2020-09-14T17:00:52+00:00",
     "createdBy":"kyritzb@gmail.com",
     "password":"$2b$10$IUwBkzpHMVnWrwK5/yumwOChWrfADWba1oFzqf4xu07hzdTKsxyc2",
     "__v":{
@@ -37,23 +38,26 @@ A room is a place where a all takes place.
 
 Attributes
 """"""""""
-``_id`` string
+``_id`` *string*
   Unique identifier for the object.
 
-``roomName`` string
-  The unique name of the room
+``roomName`` *string*
+  The unique name of the room.
 
-``timeCreated`` string
-  The time obtained through moment.js This can be manipulated and checked using moment.js
+``timeCreated`` *string*
+  A *moment.js* formatted time representing when the room was created.
 
-``createdBy`` string
-  The id of the user that created this room
+``timeCreated`` *string*
+  A *moment.js* formatted time representing when the room should open.
 
-``password`` hash
+``createdBy`` *string*
+  The id of the user that created this room.
+
+``password`` *string*
   The encrypted password of the room. Encrypted using bcrypt.
 
-``members`` array[strings]
-  The id's of the members allowed to join the room
+``members`` *array[string]*
+  The id's of the members allowed to join the room.
 
 Endpoints
 ^^^^^^^^^
@@ -66,11 +70,15 @@ Endpoints
 +---------+---------+-------------------+
 | POST   Schedule Room   /room/schedule |
 +---------+---------+-------------------+
-| DEL    Auth Room       /room/auth     |
+| POST   Auth Room       /room/auth     |
 +---------+---------+-------------------+
 
 Create a Room
 ^^^^^^^^^^^^^
+
+Creates a room record in the mongodb. Does not allow duplicate room names.
+
+``www.api.securemeeting.org/room/create``
 
 Request
 ::
@@ -86,6 +94,10 @@ Request
 Schedule a Room
 ^^^^^^^^^^^^^^^
 
+Creates a room record in the mongodb with a scheduled Time field. Does not allow duplicate room names.
+
+``www.api.securemeeting.org/room/schedule``
+
 Request
 ::
 
@@ -100,6 +112,10 @@ Request
 Get a Room
 ^^^^^^^^^^
 
+Obtains a room record based on the roomName.
+
+``www.api.securemeeting.org/room/get``
+
 Request
 ::
 
@@ -109,6 +125,10 @@ Request
 
 Delete a Room
 ^^^^^^^^^^^^^
+
+Deletes a room record based on the roomName.
+
+``www.api.securemeeting.org/room/delete``
 
 Request
 ::
@@ -120,6 +140,10 @@ Request
 
 Authenticate a Room
 ^^^^^^^^^^^^^^^^^^^
+
+Logs into a room based upon a roomName and a password.
+
+``www.api.securemeeting.org/room/auth``
 
 Request
 ::
