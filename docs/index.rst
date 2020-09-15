@@ -9,8 +9,8 @@ Secure Meeting API documentation!
 A series of apis that initiate and maintain webrtc connections.
 
 
-Base URL
-^^^^^^^^
+Base API URL
+^^^^^^^^^^^^
 
 ``www.api.securemeeting.org``   
 
