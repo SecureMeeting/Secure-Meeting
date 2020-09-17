@@ -78,7 +78,7 @@ Create a Room
 
 Creates a room record in the mongodb. Does not allow duplicate room names.
 
-``www.api.securemeeting.org/room/create``
+``POST`` ``www.api.securemeeting.org/room/create``
 
 Request
 ::
@@ -96,7 +96,7 @@ Schedule a Room
 
 Creates a room record in the mongodb with a scheduled Time field. Does not allow duplicate room names.
 
-``www.api.securemeeting.org/room/schedule``
+``POST`` ``www.api.securemeeting.org/room/schedule``
 
 Request
 ::
@@ -114,7 +114,7 @@ Get a Room
 
 Obtains a room record based on the roomName.
 
-``www.api.securemeeting.org/room/get``
+``GET`` ``www.api.securemeeting.org/room/get``
 
 Request
 ::
@@ -128,7 +128,7 @@ Delete a Room
 
 Deletes a room record based on the roomName.
 
-``www.api.securemeeting.org/room/delete``
+``DEL`` ``www.api.securemeeting.org/room/delete``
 
 Request
 ::
@@ -143,7 +143,7 @@ Authenticate a Room
 
 Logs into a room based upon a roomName and a password.
 
-``www.api.securemeeting.org/room/auth``
+``POST`` ``www.api.securemeeting.org/room/auth``
 
 Request
 ::

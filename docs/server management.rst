@@ -1,5 +1,5 @@
 Server Management Api
-+++++++++++++++++++
++++++++++++++++++++++
 
 In order to create a place to communicate, we need hardware for the call to take place on.
 These servers are distributed across the world, and take place on both azure and aws. 
@@ -15,15 +15,15 @@ Base URL
 
 Endpoints
 ^^^^^^^^^
-+---------+---------+-------------------+
++---------+---------+------------------------+
 | POST   Create Servers     /server/create   |
-+---------+---------+-------------------+
++---------+---------+------------------------+
 | GET    Get Servers        /server/get      |
-+---------+---------+-------------------+
++---------+---------+------------------------+
 | GET    Get All Servers    /server/getAll   |
-+---------+---------+-------------------+
++---------+---------+------------------------+
 | DEL    Delete Servers     /server/delete   |
-+---------+---------+-------------------+
++---------+---------+------------------------+
 
 Server Model
 ^^^^^^^^^^^^
@@ -32,19 +32,19 @@ A server is a device where calls take place on. These records keep track of all 
 
 ::
 
-{
-    "_id": {
-        "$oid": "5f63b58e195810f8c1908606"
-    },
-    "country": "US",
-    "region": "US-East3",
-    "ip": "192.168.1.1",
-    "type": "SFU",
-    "timeCreated": "2020-09-17T15:13:44-04:00",
-    "__v": {
-        "$numberInt": "0"
-    }
-}
+  {
+      "_id": {
+          "$oid": "5f63b58e195810f8c1908606"
+      },
+      "country": "US",
+      "region": "US-East3",
+      "ip": "192.168.1.1",
+      "type": "SFU",
+      "timeCreated": "2020-09-17T15:13:44-04:00",
+      "__v": {
+          "$numberInt": "0"
+      }
+  }
 
 
 Attributes
