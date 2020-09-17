@@ -19,6 +19,7 @@ Microservices
 ^^^^^^^^^^^^^
 
 - Room Management
+- Server Management
 - Authentication
 - Signalling
 
