@@ -1,3 +1,5 @@
 /auth/node_modules
-/roomManagment/node_modules
+/roomManagement/node_modules
 /signalling/node_modules
+/serverManagement/node_modules
+/node_modules

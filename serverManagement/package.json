@@ -1,7 +1,7 @@
 {
-  "name": "roommanagement",
+  "name": "servermanagement",
   "version": "1.0.0",
-  "description": "Manages rooms for webrtc video calls for SecureMeeting",
+  "description": "Manages a list of servers for the signalling api",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",

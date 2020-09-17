@@ -1,6 +1,7 @@
 const request = require("supertest");
 const moment = require("moment");
 const bcrypt = require("bcrypt");
+const mongoose = require("mongoose");
 const { MongoClient } = require("mongodb");
 
 const { app } = require("../server");
@@ -12,10 +13,15 @@ describe("Testing the Schedule Room Endpoint", () => {
   let db;
 
   beforeAll(async () => {
-    connection = await MongoClient.connect(config.atlasuri, {
+    connection = await MongoClient.connect(global.__MONGO_URI__, {
       useNewUrlParser: true,
     });
-    db = await connection.db(config.dbName);
+    db = await connection.db(global.__MONGO_DB_NAME__);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   afterAll(async () => {

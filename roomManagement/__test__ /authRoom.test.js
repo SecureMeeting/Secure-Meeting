@@ -1,4 +1,5 @@
 const request = require("supertest");
+const mongoose = require("mongoose");
 const moment = require("moment");
 const { MongoClient } = require("mongodb");
 const bcrypt = require("bcrypt");
@@ -12,18 +13,19 @@ describe("Testing the Authenticate Room Endpoint", () => {
   let db;
 
   beforeAll(async () => {
-    connection = await MongoClient.connect(config.atlasuri, {
-      useNewUrlParser: true,
-    });
-    db = await connection.db(config.dbName);
+    await mongoose.connect(
+      global.__MONGO_URI__,
+      { useNewUrlParser: true, useCreateIndex: true },
+      (err) => {
+        if (err) {
+          console.error(err);
+          process.exit(1);
+        }
+      }
+    );
   });
 
-  afterAll(async () => {
-    await connection.close();
-    await db.close();
-  });
-
-  test("Tests a null request to authenticate a room ", (done) => {
+  test("Tests a null request to authenticate a room", async (done) => {
     let req = null;
     let expectedResponse = new Response(false, "Must have a Room Name", null);
 

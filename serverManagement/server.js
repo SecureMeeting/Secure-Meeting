@@ -7,7 +7,7 @@ const connectDB = require("./config/db");
 const config = require("./config.json");
 
 console.log("---------------------------------------");
-console.log(`Starting up the ${"ROOM MANAGEMENT API"}`.blue.bold);
+console.log(`Starting up the ${"SERVER MANAGEMENT API"}`.magenta.bold);
 console.log("---------------------------------------");
 /* ------------------------ Connect to Mongo Database ----------------------- */
 connectDB();
@@ -31,12 +31,12 @@ https.createServer(tls, app).listen(PORT, function () {
 /*                               Api ROUTES                                   */
 /* -------------------------------------------------------------------------- */
 
-app.post("/room", function (req, res) {
-  res.send("Successfully hit the room managegment api!");
+app.post("/server", function (req, res) {
+  res.send("Successfully hit the server managegment api!");
 });
 
-const roomRouter = require("./routes/room");
-app.use("/room", roomRouter);
+const serverRouter = require("./routes/servers");
+app.use("/server", serverRouter);
 
 module.exports = {
   app,

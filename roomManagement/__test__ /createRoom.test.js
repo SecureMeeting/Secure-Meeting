@@ -1,10 +1,12 @@
 const request = require("supertest");
 const moment = require("moment");
+const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const { MongoClient } = require("mongodb");
 
 const { app } = require("../server");
 const { Response } = require("../models/Response");
+const RoomRecord = require("../models/RoomRecord");
 const config = require("../config.json");
 
 describe("Testing the Create Room Endpoint", () => {
@@ -12,17 +14,21 @@ describe("Testing the Create Room Endpoint", () => {
   let db;
 
   beforeAll(async () => {
-    connection = await MongoClient.connect(config.atlasuri, {
+    connection = await MongoClient.connect(global.__MONGO_URI__, {
       useNewUrlParser: true,
     });
-    db = await connection.db(config.dbName);
+    db = await connection.db(global.__MONGO_DB_NAME__);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   afterAll(async () => {
     await connection.close();
     await db.close();
   });
-
   test("Tests a null request to create a room ", (done) => {
     let req = null;
 
@@ -38,7 +44,7 @@ describe("Testing the Create Room Endpoint", () => {
       });
   });
 
-  test("Tests a request with a null room name to create a room ", (done) => {
+  test("Tests a request with a null room name to create a room", (done) => {
     const req = {
       roomName: null,
       timeCreated: moment().format(),
@@ -59,7 +65,7 @@ describe("Testing the Create Room Endpoint", () => {
       });
   });
 
-  test("Tests a request with a empty room name to create a room ", (done) => {
+  test("Tests a request with a empty room name to create a room", (done) => {
     const req = {
       roomName: "",
       timeCreated: moment().format(),
@@ -80,7 +86,7 @@ describe("Testing the Create Room Endpoint", () => {
       });
   });
 
-  test("Tests a request with a valid room name to create a room ", (done) => {
+  test("Tests a request with a valid room name to create a room", (done) => {
     const req = {
       roomName: "helloWorldcastle12345",
       timeCreated: moment().format(),
@@ -91,38 +97,43 @@ describe("Testing the Create Room Endpoint", () => {
 
     let expectedResponse = new Response(true, null, req);
 
-    const rooms = db.collection(config.collectionName);
+    //const newRoom = new RoomRecord(req);
 
     return request(app)
       .post("/room/create")
       .send(req)
       .then((response) => {
-        rooms.findOne({ roomName: req.roomName }).then((insertedRoom) => {
-          if (insertedRoom == null) {
-            expect(insertedRoom).toEqual(null);
-          } else {
-            //checks the database to see if a correct record was added
-            expect(insertedRoom.roomName).toEqual(req.roomName);
-            expect(insertedRoom.createdBy).toEqual(req.createdBy);
-            expect(insertedRoom.members).toEqual(req.members);
-            expect(insertedRoom.password).not.toEqual(req.password);
-            //checks the response to make sure a correct response was given
-            expect(response.statusCode).toBe(200);
-            expect(response.body.payload.roomName).toEqual(
-              expectedResponse.payload.roomName
-            );
-            expect(response.body.payload.createdBy).toEqual(
-              expectedResponse.payload.createdBy
-            );
-            expect(response.body.payload.members).toEqual(
-              expectedResponse.payload.members
-            );
-            //deletes the record that was added to the database
-            rooms.deleteOne({ roomName: req.roomName }).then((deletedRoom) => {
+        console.log(response);
+        try {
+          RoomRecord.findOne({ roomName: req.roomName }).then(
+            (insertedRoom) => {
+              if (insertedRoom == null) {
+                expect(insertedRoom).toEqual(null);
+              } else {
+                console.log(insertedRoom);
+                //checks the database to see if a correct record was added
+                expect(insertedRoom.roomName).toEqual(req.roomName);
+                expect(insertedRoom.createdBy).toEqual(req.createdBy);
+
+                expect(insertedRoom.password).not.toEqual(req.password);
+                //checks the response to make sure a correct response was given
+                expect(response.statusCode).toBe(200);
+                expect(response.body.payload.roomName).toEqual(
+                  expectedResponse.payload.roomName
+                );
+                expect(response.body.payload.createdBy).toEqual(
+                  expectedResponse.payload.createdBy
+                );
+                expect(response.body.payload.members).toEqual(
+                  expectedResponse.payload.members
+                );
+              }
               done();
-            });
-          }
-        });
+            }
+          );
+        } catch (error) {
+          done(error);
+        }
       });
   });
 });
