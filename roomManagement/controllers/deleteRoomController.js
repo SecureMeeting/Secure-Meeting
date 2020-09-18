@@ -20,8 +20,17 @@ exports.deleteRoom = async (req, res) => {
     await RoomRecord.deleteOne({ roomName: roomReq.roomName })
       .then((record) => {
         if (record) {
-          let response = new Response(true, null, record);
-          res.status(200).send(response);
+          if (record.deletedCount === 0) {
+            let response = new Response(
+              false,
+              "A room with that name was not found",
+              null
+            );
+            res.status(400).send(response);
+          } else {
+            let response = new Response(true, null, true);
+            res.status(200).send(response);
+          }
         } else {
           let response = new Response(
             false,

@@ -61,8 +61,6 @@ describe("Testing the Get All Server Endpoint", () => {
         expect(response.body.isSuccess).toEqual(true);
         expect(response.body.errorName).toEqual(null);
 
-        expect(response.body.payload.length).toEqual(3);
-
         expect(response.body.payload[0].country).toEqual(example1.country);
         expect(response.body.payload[0].region).toEqual(example1.region);
         expect(response.body.payload[0].ip).toEqual(example1.ip);

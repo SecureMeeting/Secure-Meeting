@@ -3,6 +3,7 @@ const { MongoClient } = require("mongodb");
 
 const { app } = require("../server");
 const { Response } = require("../models/Response");
+const RoomRecord = require("../models/RoomRecord");
 
 describe("Testing the Get Room Endpoint", () => {
   let connection;
@@ -70,21 +71,22 @@ describe("Testing the Get Room Endpoint", () => {
 
   test("Tests a request with a valid room name to get a room ", async (done) => {
     const req = {
-      roomName: "helloWorldcastle",
+      roomName: "helloWorldcastle4324",
     };
 
     const mockRoom = {
-      _id: "some-user-id",
-      roomName: req.roomName,
+      roomName: "helloWorldcastle4324",
       createdBy: "test@securemeeting.org",
+      timeCreated: "12/213/32432",
       password: "helloWorld",
       members: [],
     };
 
-    const rooms = db.collection(process.env.COLLECTION_NAME);
+    let e1 = new RoomRecord(mockRoom);
+
+    await e1.save();
 
     //adds a record to the database in order to be returned
-    await rooms.insertOne(mockRoom);
 
     let expectedResponse = new Response(true, null, mockRoom);
 
@@ -92,26 +94,12 @@ describe("Testing the Get Room Endpoint", () => {
       .get("/room/get")
       .send(req)
       .then((response) => {
-        rooms.findOne({ roomName: req.roomName }).then((retrievedRoom) => {
-          //checks the database to see if a correct record was retrieved
-          expect(retrievedRoom.roomName).toEqual(
-            expectedResponse.payload.roomName
-          );
-          expect(retrievedRoom.createdBy).toEqual(
-            expectedResponse.payload.createdBy
-          );
-          expect(retrievedRoom.members).toEqual(
-            expectedResponse.payload.members
-          );
-
-          //checks the response to make sure a correct response was given
-          expect(response.statusCode).toBe(200);
-
-          //deletes the record that was added to the database
-          rooms.deleteOne({ roomName: req.roomName }).then((deletedRoom) => {
-            done();
-          });
-        });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.isSuccess).toEqual(expectedResponse.isSuccess);
+        expect(response.body.payload.roomName).toEqual(mockRoom.roomName);
+        expect(response.body.payload.createdBy).toEqual(mockRoom.createdBy);
+        expect(response.body.payload.members).toEqual(mockRoom.members);
+        done();
       });
   });
 });

@@ -4,6 +4,7 @@ const { MongoClient } = require("mongodb");
 
 const { app } = require("../server");
 const { Response } = require("../models/Response");
+const RoomRecord = require("../models/RoomRecord");
 
 describe("Testing the Schedule Room Endpoint", () => {
   let connection;
@@ -21,7 +22,7 @@ describe("Testing the Schedule Room Endpoint", () => {
     await connection.close();
   });
 
-  test("Tests a null request to Schedule a room ", (done) => {
+  test("Tests a null request to Schedule a room", (done) => {
     let req = null;
 
     let expectedResponse = new Response(false, "Must have a Room Name", null);
@@ -36,7 +37,7 @@ describe("Testing the Schedule Room Endpoint", () => {
       });
   });
 
-  test("Tests a request with a null room name to Schedule a room ", (done) => {
+  test("Tests a request with a null room name to Schedule a room", (done) => {
     const req = {
       roomName: null,
       timeCreated: moment().format(),
@@ -58,7 +59,7 @@ describe("Testing the Schedule Room Endpoint", () => {
       });
   });
 
-  test("Tests a request with a null Scheduled Time to Schedule a room ", (done) => {
+  test("Tests a request with a null Scheduled Time to Schedule a room", (done) => {
     const req = {
       roomName: "helloworld12345",
       timeCreated: moment().format(),
@@ -84,7 +85,7 @@ describe("Testing the Schedule Room Endpoint", () => {
       });
   });
 
-  test("Tests a request with a empty room name to Schedule a room ", (done) => {
+  test("Tests a request with a empty room name to Schedule a room", (done) => {
     const req = {
       roomName: "",
       timeCreated: moment().format(),
@@ -105,7 +106,7 @@ describe("Testing the Schedule Room Endpoint", () => {
       });
   });
 
-  test("Tests a request with a empty Scheduled Time to Schedule a room ", (done) => {
+  test("Tests a request with a empty Scheduled Time to Schedule a room", (done) => {
     const req = {
       roomName: "helloworld12345",
       timeCreated: moment().format(),
@@ -131,7 +132,7 @@ describe("Testing the Schedule Room Endpoint", () => {
       });
   });
 
-  test("Tests a request with a valid room name and scheduled time to Schedule a room ", (done) => {
+  test("Tests a request with a valid room name and scheduled time to Schedule a room", (done) => {
     const req = {
       roomName: "helloWorldcastle12345764355",
       timeCreated: moment().format(),
@@ -143,39 +144,19 @@ describe("Testing the Schedule Room Endpoint", () => {
 
     let expectedResponse = new Response(true, null, req);
 
-    const rooms = db.collection(process.env.COLLECTION_NAME);
-
     return request(app)
       .post("/room/schedule")
       .send(req)
       .then((response) => {
-        rooms.findOne({ roomName: req.roomName }).then((insertedRoom) => {
-          if (insertedRoom == null) {
-            expect(insertedRoom).toEqual(null);
-          } else {
-            //checks the database to see if a correct record was added
-            expect(insertedRoom.roomName).toEqual(req.roomName);
-            expect(insertedRoom.createdBy).toEqual(req.createdBy);
-            expect(insertedRoom.members).toEqual(req.members);
-            expect(insertedRoom.password).not.toEqual(req.password);
-            expect(insertedRoom.scheduledTime).toEqual(req.scheduledTime);
-            //checks the response to make sure a correct response was given
-            expect(response.statusCode).toBe(200);
-            expect(response.body.payload.roomName).toEqual(
-              expectedResponse.payload.roomName
-            );
-            expect(response.body.payload.createdBy).toEqual(
-              expectedResponse.payload.createdBy
-            );
-            expect(response.body.payload.members).toEqual(
-              expectedResponse.payload.members
-            );
-            //deletes the record that was added to the database
-            rooms.deleteOne({ roomName: req.roomName }).then((deletedRoom) => {
-              done();
-            });
-          }
-        });
+        expect(response.statusCode).toBe(200);
+
+        expect(response.body.payload.roomName).toEqual(req.roomName);
+        expect(response.body.payload.createdBy).toEqual(req.createdBy);
+        expect(response.body.payload.members).toEqual(req.members);
+        expect(response.body.payload.password).not.toEqual(req.password);
+        expect(response.body.payload.scheduledTime).toEqual(req.scheduledTime);
+
+        done();
       });
   });
 });

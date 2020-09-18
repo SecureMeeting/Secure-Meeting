@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 
 const { app } = require("../server");
 const { Response } = require("../models/Response");
+const RoomRecord = require("../models/RoomRecord");
 
 describe("Testing the Authenticate Room Endpoint", () => {
   let connection;
@@ -109,78 +110,30 @@ describe("Testing the Authenticate Room Endpoint", () => {
 
   test("Tests a request with a valid room name and password", async (done) => {
     const req = {
-      roomName: "helloWorldcastle",
-      password: "helloworld",
+      roomName: "helloWorld",
+      password: "helloworld123",
     };
 
-    bcrypt.hash(req.password, process.env.SALT_ROUNDS, async function (
-      err,
-      hashPassword
-    ) {
-      var mockRoom = {
-        _id: "some-user-id32423443",
-        roomName: req.roomName,
-        createdBy: "test@securemeeting.org",
-        password: hashPassword,
-        members: [],
-      };
-
-      const rooms = db.collection(process.env.COLLECTION_NAME);
-
-      //adds a record to the database in order to be returned
-      await rooms.insertOne(mockRoom);
-
-      let expectedResponse = new Response(true, null, true);
-
-      return request(app)
-        .post("/room/auth")
-        .send(req)
-        .then((response) => {
-          expect(response.body).toEqual(expectedResponse);
-          expect(response.statusCode).toBe(200);
-          //deletes the record that was added to the database
-          rooms.deleteOne({ roomName: req.roomName }).then((deletedRoom) => {
-            done();
-          });
-        });
-    });
-  });
-
-  test("Tests a request with a valid room name and no password", async (done) => {
-    const req = {
-      roomName: "helloWorldcastle",
-      password: "helloworld",
+    var mockRoom = {
+      roomName: "helloWorld",
+      createdBy: "test@securemeeting.org",
+      password: "helloworld123",
+      members: [],
     };
 
-    bcrypt.hash(req.password, process.env.SALT_ROUNDS, async function (
-      err,
-      hashPassword
-    ) {
-      var mockRoom = {
-        _id: "some-user-id32423443",
-        roomName: req.roomName,
-        createdBy: "test@securemeeting.org",
-        members: [],
-      };
+    let expectedResponse = new Response(true, null, true);
 
-      const rooms = db.collection(process.env.COLLECTION_NAME);
+    let createRoomRes = await request(app).post("/room/create").send(mockRoom);
 
-      //adds a record to the database in order to be returned
-      await rooms.insertOne(mockRoom);
-
-      let expectedResponse = new Response(true, null, true);
-
-      return request(app)
-        .post("/room/auth")
-        .send(req)
-        .then((response) => {
-          expect(response.body).toEqual(expectedResponse);
-          expect(response.statusCode).toBe(200);
-          //deletes the record that was added to the database
-          rooms.deleteOne({ roomName: req.roomName }).then((deletedRoom) => {
-            done();
-          });
-        });
-    });
+    return request(app)
+      .post("/room/auth")
+      .send(req)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(response.body.isSuccess).toBe(true);
+        expect(response.body.errorName).toBe(null);
+        expect(response.body.payload).toBe(true);
+        done();
+      });
   });
 });

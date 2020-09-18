@@ -6,6 +6,7 @@ const { MongoClient } = require("mongodb");
 const { app } = require("../server");
 const { Response } = require("../models/Response");
 const config = require("../config.json");
+const RoomRecord = require("../models/RoomRecord");
 
 describe("Testing the Delete Room Endpoint", () => {
   let connection;
@@ -23,7 +24,7 @@ describe("Testing the Delete Room Endpoint", () => {
     await connection.close();
   });
 
-  test("Tests a null request to delete a room ", (done) => {
+  test("Tests a null request to delete a room", (done) => {
     let req = null;
     let expectedResponse = new Response(false, "Must have a Room Name", null);
 
@@ -54,7 +55,7 @@ describe("Testing the Delete Room Endpoint", () => {
       });
   });
 
-  test("Tests a request with a empty room name to delete a room ", (done) => {
+  test("Tests a request with a empty room name to delete a room", (done) => {
     const req = {
       roomName: "",
     };
@@ -71,39 +72,53 @@ describe("Testing the Delete Room Endpoint", () => {
       });
   });
 
-  test("Tests a request with a valid room name to delete a room ", async (done) => {
+  test("Tests a request with a valid room name to delete a room", async (done) => {
     const req = {
       roomName: "helloWorldcastleTest",
     };
 
     const mockRoom = {
-      _id: "some-user-id124",
-      roomName: req.roomName,
+      roomName: "helloWorldcastleTest",
       createdBy: "test123@securemeeting.org",
+      timeCreated: "12/12/2012",
       password: "helloWorld",
       members: [],
     };
-
-    const rooms = db.collection(config.collectionName);
-
     //adds a record to the database in order to be returned
-    rooms.insertOne(mockRoom).then(() => {
-      let expectedResponse = new Response(true, null, mockRoom);
-      return request(app)
-        .delete("/room/delete")
-        .send(req)
-        .then((response) => {
-          expect(response.body.payload.deletedCount).toEqual(1);
 
-          //checks the response to make sure a correct response was given
-          expect(response.statusCode).toBe(200);
+    let e1 = new RoomRecord(mockRoom);
 
-          //attempts to find the record that was deleted from the database
-          rooms.findOne({ roomName: req.roomName }).then((room) => {
-            expect(room).toEqual(null);
-            done();
-          });
-        });
-    });
+    await e1.save();
+
+    let expectedResponse = new Response(true, null, mockRoom);
+    return request(app)
+      .delete("/room/delete")
+      .send(req)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(response.body.payload).toBe(true);
+        done();
+      });
+  });
+
+  test("Tests a room name that is not in the database to delete a room", (done) => {
+    let req = {
+      roomName: "helloWorldcastleTest123",
+    };
+
+    let expectedResponse = new Response(
+      false,
+      "A room with that name was not found",
+      null
+    );
+
+    return request(app)
+      .del("/room/delete")
+      .send(req)
+      .then((response) => {
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toEqual(expectedResponse);
+        done();
+      });
   });
 });

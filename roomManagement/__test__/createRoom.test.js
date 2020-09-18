@@ -83,7 +83,6 @@ describe("Testing the Create Room Endpoint", () => {
   test("Tests a request with a valid room name to create a room", (done) => {
     const req = {
       roomName: "helloWorldcastle12345",
-      timeCreated: moment().format(),
       createdBy: "test@securemeeting.org",
       password: "helloWorld",
       members: [],
@@ -91,43 +90,56 @@ describe("Testing the Create Room Endpoint", () => {
 
     let expectedResponse = new Response(true, null, req);
 
-    //const newRoom = new RoomRecord(req);
+    return request(app)
+      .post("/room/create")
+      .send(req)
+      .then((response) => {
+        RoomRecord.findOne({ roomName: req.roomName }).then((insertedRoom) => {
+          expect(response.statusCode).toBe(200);
+
+          expect(response.body.payload.roomName).toEqual(
+            expectedResponse.payload.roomName
+          );
+          expect(response.body.payload.createdBy).toEqual(
+            expectedResponse.payload.createdBy
+          );
+          expect(response.body.payload.members).toEqual(
+            expectedResponse.payload.members
+          );
+
+          //checks if password is hased
+          expect(response.body.payload.password).not.toEqual(
+            expectedResponse.payload.password
+          );
+
+          done();
+        });
+      });
+  });
+
+  test("Tests a request that a duplicate room name cannot be added", (done) => {
+    const req = {
+      roomName: "helloWorldcastle12345",
+      createdBy: "test@securemeeting.org",
+      password: "helloWorld",
+      members: [],
+    };
+
+    let expectedResponse = new Response(true, null, req);
 
     return request(app)
       .post("/room/create")
       .send(req)
       .then((response) => {
-        console.log(response);
-        try {
-          RoomRecord.findOne({ roomName: req.roomName }).then(
-            (insertedRoom) => {
-              if (insertedRoom == null) {
-                expect(insertedRoom).toEqual(null);
-              } else {
-                console.log(insertedRoom);
-                //checks the database to see if a correct record was added
-                expect(insertedRoom.roomName).toEqual(req.roomName);
-                expect(insertedRoom.createdBy).toEqual(req.createdBy);
+        RoomRecord.findOne({ roomName: req.roomName }).then((insertedRoom) => {
+          expect(response.statusCode).toBe(400);
 
-                expect(insertedRoom.password).not.toEqual(req.password);
-                //checks the response to make sure a correct response was given
-                expect(response.statusCode).toBe(200);
-                expect(response.body.payload.roomName).toEqual(
-                  expectedResponse.payload.roomName
-                );
-                expect(response.body.payload.createdBy).toEqual(
-                  expectedResponse.payload.createdBy
-                );
-                expect(response.body.payload.members).toEqual(
-                  expectedResponse.payload.members
-                );
-              }
-              done();
-            }
-          );
-        } catch (error) {
-          done(error);
-        }
+          expect(response.body.errorName).toBe("Room Already Exists");
+
+          expect(response.body.isSuccess).toBe(false);
+
+          done();
+        });
       });
   });
 });
