@@ -1,6 +1,5 @@
 const ServerRecord = require("../models/ServerRecord");
 const { Response } = require("../models/Response");
-const config = require("../config.json");
 
 exports.deleteServer = async (req, res) => {
   const serverReq = {
@@ -21,8 +20,17 @@ exports.deleteServer = async (req, res) => {
     await ServerRecord.deleteOne({ ip: serverReq.ip })
       .then((record) => {
         if (record) {
-          let response = new Response(true, null, record);
-          res.status(200).send(response);
+          if (record.deletedCount === 0) {
+            let response = new Response(
+              false,
+              "A server with that ip was not found",
+              null
+            );
+            res.status(400).send(response);
+          } else {
+            let response = new Response(true, null, true);
+            res.status(200).send(response);
+          }
         } else {
           let response = new Response(
             false,

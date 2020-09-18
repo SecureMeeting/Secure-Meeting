@@ -1,5 +1,7 @@
 /auth/node_modules
 /roomManagement/node_modules
+/roomManagement/.env
 /signalling/node_modules
 /serverManagement/node_modules
+/serverManagement/.env
 /node_modules

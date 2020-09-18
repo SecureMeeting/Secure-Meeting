@@ -7,33 +7,28 @@ const { app } = require("../server");
 const { Response } = require("../models/Response");
 const config = require("../config.json");
 
-describe("Testing the Get Room Endpoint", () => {
+describe("Testing the Delete Room Endpoint", () => {
   let connection;
   let db;
 
   beforeAll(async () => {
-    connection = await MongoClient.connect(global.__MONGO_URI__, {
+    connection = await MongoClient.connect(process.env.MONGO_URL, {
       useNewUrlParser: true,
+      useUnifiedTopology: true,
     });
-    db = await connection.db(global.__MONGO_DB_NAME__);
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
-    jest.resetAllMocks();
+    db = await connection.db();
   });
 
   afterAll(async () => {
     await connection.close();
-    await db.close();
   });
 
-  test("Tests a null request to get a room ", (done) => {
+  test("Tests a null request to delete a room ", (done) => {
     let req = null;
     let expectedResponse = new Response(false, "Must have a Room Name", null);
 
     return request(app)
-      .get("/room/get")
+      .delete("/room/delete")
       .send(req)
       .then((response) => {
         expect(response.statusCode).toBe(400);
@@ -42,7 +37,7 @@ describe("Testing the Get Room Endpoint", () => {
       });
   });
 
-  test("Tests a request with a null room name to get a room ", (done) => {
+  test("Tests a request with a null room name to delete a room ", (done) => {
     const req = {
       roomName: null,
     };
@@ -50,7 +45,7 @@ describe("Testing the Get Room Endpoint", () => {
     let expectedResponse = new Response(false, "Must have a Room Name", null);
 
     return request(app)
-      .get("/room/get")
+      .delete("/room/delete")
       .send(req)
       .then((response) => {
         expect(response.statusCode).toBe(400);
@@ -59,7 +54,7 @@ describe("Testing the Get Room Endpoint", () => {
       });
   });
 
-  test("Tests a request with a empty room name to get a room ", (done) => {
+  test("Tests a request with a empty room name to delete a room ", (done) => {
     const req = {
       roomName: "",
     };
@@ -67,7 +62,7 @@ describe("Testing the Get Room Endpoint", () => {
     let expectedResponse = new Response(false, "Must have a Room Name", null);
 
     return request(app)
-      .get("/room/get")
+      .delete("/room/delete")
       .send(req)
       .then((response) => {
         expect(response.statusCode).toBe(400);
@@ -76,15 +71,15 @@ describe("Testing the Get Room Endpoint", () => {
       });
   });
 
-  test("Tests a request with a valid room name to get a room ", async (done) => {
+  test("Tests a request with a valid room name to delete a room ", async (done) => {
     const req = {
-      roomName: "helloWorldcastle",
+      roomName: "helloWorldcastleTest",
     };
 
     const mockRoom = {
-      _id: "some-user-id",
+      _id: "some-user-id124",
       roomName: req.roomName,
-      createdBy: "test@securemeeting.org",
+      createdBy: "test123@securemeeting.org",
       password: "helloWorld",
       members: [],
     };
@@ -92,34 +87,23 @@ describe("Testing the Get Room Endpoint", () => {
     const rooms = db.collection(config.collectionName);
 
     //adds a record to the database in order to be returned
-    await rooms.insertOne(mockRoom);
-
-    let expectedResponse = new Response(true, null, mockRoom);
-
-    return request(app)
-      .get("/room/get")
-      .send(req)
-      .then((response) => {
-        rooms.findOne({ roomName: req.roomName }).then((retrievedRoom) => {
-          //checks the database to see if a correct record was retrieved
-          expect(retrievedRoom.roomName).toEqual(
-            expectedResponse.payload.roomName
-          );
-          expect(retrievedRoom.createdBy).toEqual(
-            expectedResponse.payload.createdBy
-          );
-          expect(retrievedRoom.members).toEqual(
-            expectedResponse.payload.members
-          );
+    rooms.insertOne(mockRoom).then(() => {
+      let expectedResponse = new Response(true, null, mockRoom);
+      return request(app)
+        .delete("/room/delete")
+        .send(req)
+        .then((response) => {
+          expect(response.body.payload.deletedCount).toEqual(1);
 
           //checks the response to make sure a correct response was given
           expect(response.statusCode).toBe(200);
 
-          //deletes the record that was added to the database
-          rooms.deleteOne({ roomName: req.roomName }).then((deletedRoom) => {
+          //attempts to find the record that was deleted from the database
+          rooms.findOne({ roomName: req.roomName }).then((room) => {
+            expect(room).toEqual(null);
             done();
           });
         });
-      });
+    });
   });
 });

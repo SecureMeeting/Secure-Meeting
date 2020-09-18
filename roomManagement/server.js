@@ -3,6 +3,7 @@ const cors = require("cors");
 var https = require("https");
 var fs = require("fs");
 const colors = require("colors");
+const dotenv = require("dotenv").config();
 const connectDB = require("./config/db");
 const config = require("./config.json");
 
@@ -16,7 +17,7 @@ connectDB();
 const app = express();
 app.use(cors());
 app.use(express.json());
-const PORT = process.env.PORT || config.port;
+const PORT = process.env.PORT || 8080;
 
 const tls = {
   cert: fs.readFileSync(config.tls.cert),

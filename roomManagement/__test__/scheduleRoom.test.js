@@ -1,32 +1,24 @@
 const request = require("supertest");
 const moment = require("moment");
-const bcrypt = require("bcrypt");
-const mongoose = require("mongoose");
 const { MongoClient } = require("mongodb");
 
 const { app } = require("../server");
 const { Response } = require("../models/Response");
-const config = require("../config.json");
 
 describe("Testing the Schedule Room Endpoint", () => {
   let connection;
   let db;
 
   beforeAll(async () => {
-    connection = await MongoClient.connect(global.__MONGO_URI__, {
+    connection = await MongoClient.connect(process.env.MONGO_URL, {
       useNewUrlParser: true,
+      useUnifiedTopology: true,
     });
-    db = await connection.db(global.__MONGO_DB_NAME__);
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
-    jest.resetAllMocks();
+    db = await connection.db();
   });
 
   afterAll(async () => {
     await connection.close();
-    await db.close();
   });
 
   test("Tests a null request to Schedule a room ", (done) => {
@@ -151,7 +143,7 @@ describe("Testing the Schedule Room Endpoint", () => {
 
     let expectedResponse = new Response(true, null, req);
 
-    const rooms = db.collection(config.collectionName);
+    const rooms = db.collection(process.env.COLLECTION_NAME);
 
     return request(app)
       .post("/room/schedule")

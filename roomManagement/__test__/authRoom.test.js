@@ -1,28 +1,24 @@
 const request = require("supertest");
-const mongoose = require("mongoose");
-const moment = require("moment");
 const { MongoClient } = require("mongodb");
 const bcrypt = require("bcrypt");
 
 const { app } = require("../server");
 const { Response } = require("../models/Response");
-const config = require("../config.json");
 
 describe("Testing the Authenticate Room Endpoint", () => {
   let connection;
   let db;
 
   beforeAll(async () => {
-    await mongoose.connect(
-      global.__MONGO_URI__,
-      { useNewUrlParser: true, useCreateIndex: true },
-      (err) => {
-        if (err) {
-          console.error(err);
-          process.exit(1);
-        }
-      }
-    );
+    connection = await MongoClient.connect(process.env.MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    db = await connection.db();
+  });
+
+  afterAll(async () => {
+    await connection.close();
   });
 
   test("Tests a null request to authenticate a room", async (done) => {
@@ -117,7 +113,7 @@ describe("Testing the Authenticate Room Endpoint", () => {
       password: "helloworld",
     };
 
-    bcrypt.hash(req.password, config.saltRounds, async function (
+    bcrypt.hash(req.password, process.env.SALT_ROUNDS, async function (
       err,
       hashPassword
     ) {
@@ -129,7 +125,7 @@ describe("Testing the Authenticate Room Endpoint", () => {
         members: [],
       };
 
-      const rooms = db.collection(config.collectionName);
+      const rooms = db.collection(process.env.COLLECTION_NAME);
 
       //adds a record to the database in order to be returned
       await rooms.insertOne(mockRoom);
@@ -156,7 +152,7 @@ describe("Testing the Authenticate Room Endpoint", () => {
       password: "helloworld",
     };
 
-    bcrypt.hash(req.password, config.saltRounds, async function (
+    bcrypt.hash(req.password, process.env.SALT_ROUNDS, async function (
       err,
       hashPassword
     ) {
@@ -167,7 +163,7 @@ describe("Testing the Authenticate Room Endpoint", () => {
         members: [],
       };
 
-      const rooms = db.collection(config.collectionName);
+      const rooms = db.collection(process.env.COLLECTION_NAME);
 
       //adds a record to the database in order to be returned
       await rooms.insertOne(mockRoom);

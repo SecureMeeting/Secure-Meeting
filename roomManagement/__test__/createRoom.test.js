@@ -1,35 +1,29 @@
 const request = require("supertest");
 const moment = require("moment");
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+
 const { MongoClient } = require("mongodb");
 
 const { app } = require("../server");
 const { Response } = require("../models/Response");
 const RoomRecord = require("../models/RoomRecord");
-const config = require("../config.json");
 
 describe("Testing the Create Room Endpoint", () => {
   let connection;
   let db;
 
   beforeAll(async () => {
-    connection = await MongoClient.connect(global.__MONGO_URI__, {
+    connection = await MongoClient.connect(process.env.MONGO_URL, {
       useNewUrlParser: true,
+      useUnifiedTopology: true,
     });
-    db = await connection.db(global.__MONGO_DB_NAME__);
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
-    jest.resetAllMocks();
+    db = await connection.db();
   });
 
   afterAll(async () => {
     await connection.close();
-    await db.close();
   });
-  test("Tests a null request to create a room ", (done) => {
+
+  test("Tests a null request to create a room", (done) => {
     let req = null;
 
     let expectedResponse = new Response(false, "Must have a Room Name", null);

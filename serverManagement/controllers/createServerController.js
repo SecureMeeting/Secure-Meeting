@@ -2,7 +2,6 @@ const moment = require("moment");
 
 const ServerRecord = require("../models/ServerRecord");
 const { Response } = require("../models/Response");
-const config = require("../config.json");
 
 exports.createServer = async (req, res, next) => {
   const serverReq = {

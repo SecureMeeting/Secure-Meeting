@@ -1,9 +1,5 @@
-const moment = require("moment");
-const bcrypt = require("bcrypt");
-
 const ServerRecord = require("../models/ServerRecord");
 const { Response } = require("../models/Response");
-const config = require("../config.json");
 
 exports.getServer = async (req, res) => {
   const serverReq = {

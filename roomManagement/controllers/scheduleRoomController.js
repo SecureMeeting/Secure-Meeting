@@ -8,7 +8,10 @@ const config = require("../config.json");
 exports.scheduleRoom = async (req, res) => {
   const password = req.body.password;
 
-  bcrypt.hash(password, config.saltRounds, async function (err, hashPassword) {
+  bcrypt.hash(password, process.env.SALT_ROUNDS, async function (
+    err,
+    hashPassword
+  ) {
     const roomReq = {
       roomName: req.body.roomName,
       timeCreated: moment().format(),

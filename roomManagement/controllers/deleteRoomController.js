@@ -1,9 +1,5 @@
-const moment = require("moment");
-const bcrypt = require("bcrypt");
-
 const RoomRecord = require("../models/RoomRecord");
 const { Response } = require("../models/Response");
-const config = require("../config.json");
 
 exports.deleteRoom = async (req, res) => {
   const roomReq = {
