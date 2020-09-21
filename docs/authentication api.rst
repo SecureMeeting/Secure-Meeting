@@ -14,13 +14,7 @@ Base URL
 Endpoints
 ^^^^^^^^^
 +---------+---------+-------------------+
-| POST   Create Room     /room/create   |
+| POST   login         /auth/login      |
 +---------+---------+-------------------+
-| GET    Get Room        /room/get      |
-+---------+---------+-------------------+
-| DEL    Delete Room     /room/delete   |
-+---------+---------+-------------------+
-| POST   Schedule Room   /room/schedule |
-+---------+---------+-------------------+
-| POST   Auth Room       /room/auth     |
+| POST   Signup        /auth/signup     |
 +---------+---------+-------------------+
