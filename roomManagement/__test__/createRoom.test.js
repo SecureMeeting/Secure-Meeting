@@ -106,12 +106,10 @@ describe("Testing the Create Room Endpoint", () => {
           expect(response.body.payload.members).toEqual(
             expectedResponse.payload.members
           );
-
           //checks if password is hased
           expect(response.body.payload.password).not.toEqual(
             expectedResponse.payload.password
           );
-
           done();
         });
       });
@@ -133,11 +131,8 @@ describe("Testing the Create Room Endpoint", () => {
       .then((response) => {
         RoomRecord.findOne({ roomName: req.roomName }).then((insertedRoom) => {
           expect(response.statusCode).toBe(400);
-
           expect(response.body.errorName).toBe("Room Already Exists");
-
           expect(response.body.isSuccess).toBe(false);
-
           done();
         });
       });

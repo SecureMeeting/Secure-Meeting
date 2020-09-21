@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const config = require("../config");
 //create schema
 const ServerRecordSchema = new Schema(
   {
@@ -25,7 +24,7 @@ const ServerRecordSchema = new Schema(
       required: false,
     },
   },
-  { collection: config.collectionName }
+  { collection: process.env.COLLECTION_NAME }
 );
 
 module.exports = mongoose.model("ServerRecord", ServerRecordSchema);

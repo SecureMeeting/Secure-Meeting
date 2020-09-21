@@ -29,7 +29,7 @@ exports.authenticateRoom = async (req, res) => {
   } else {
     RoomRecord.findOne({ roomName: roomReq.roomName }).then((record) => {
       if (record) {
-        if (record.password == "" || record.password == null) {
+        if (record.password === "" || record.password === null) {
           let response = new Response(true, null, true);
           return res.status(200).send(response);
         } else {

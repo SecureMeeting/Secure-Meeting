@@ -31,7 +31,7 @@ const RoomRecordSchema = new Schema(
       },
     ],
   },
-  { collection: config.collectionName }
+  { collection: process.env.COLLECTION_NAME }
 );
 
 module.exports = mongoose.model("RoomRecord", RoomRecordSchema);

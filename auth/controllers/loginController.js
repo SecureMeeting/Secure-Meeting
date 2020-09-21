@@ -18,62 +18,98 @@ exports.login = async (req, res) => {
   const googleId = req.body.googleId;
   const password = req.body.password;
 
-  if (googleId) {
-    //google login
-    await UserRecord.findOne({ googleId: googleId, email: email })
-      .then((record) => {
-        if (record) {
-          jwt.sign({ record }, secretKey, { expiresIn: "1d" }, (err, token) => {
-            let response = new Response(true, null, record);
-            response.token = token;
-            res.send(response);
-          });
-        } else {
+  //checks for null and empty values
+  if (email === null || email === undefined || email === "") {
+    let response = new Response(false, "Must have an email", null);
+    res.status(400).send(response);
+  } else if (password === null || password === undefined || password === "") {
+    let response = new Response(false, "Must have a password", null);
+    res.status(400).send(response);
+  } else {
+    if (googleId) {
+      //google login
+      await UserRecord.findOne({ googleId: googleId, email: email })
+        .then((record) => {
+          if (record) {
+            jwt.sign(
+              { record },
+              process.env.SECRET_KEY,
+              { expiresIn: "1d" },
+              (err, token) => {
+                if (err) {
+                  let response = new Response(false, "An error occured", null);
+                  res.status(400).send(response);
+                } else {
+                  let response = new Response(true, null, record);
+                  response.token = token;
+                  res.status(200).send(response);
+                }
+              }
+            );
+          } else {
+            let response = new Response(
+              false,
+              "Unable to find the account.",
+              null
+            );
+            res.status(400).send(response);
+          }
+        })
+        .catch(() => {
+          let response = new Response(false, "An error occured", null);
+          res.status(400).send(response);
+        });
+    } else {
+      await UserRecord.findOne({ email: email })
+        .then((record) => {
+          if (record.isGmail) {
+            let response = new Response(
+              false,
+              "Please log in with google",
+              null
+            );
+            res.status(400).send(response);
+          } else {
+            bcrypt.compare(password, record.password, function (err, result) {
+              if (err) {
+                let response = new Response(false, "An error occured", null);
+                res.status(400).send(response);
+              }
+              if (result) {
+                jwt.sign(
+                  { record },
+                  process.env.SECRET_KEY,
+                  { expiresIn: "1d" },
+                  (err, token) => {
+                    if (err) {
+                      let response = new Response(
+                        false,
+                        "An error occured",
+                        null
+                      );
+                      res.status(400).send(response);
+                    } else {
+                      let response = new Response(true, null, record);
+                      response.token = token;
+                      res.status(200).send(response);
+                    }
+                  }
+                );
+              } else {
+                let response = new Response(false, "Incorrect password", null);
+                res.status(400).send(response);
+              }
+            });
+          }
+        })
+        .catch(() => {
           let response = new Response(
             false,
             "Unable to find the account.",
             null
           );
-          res.send(response);
-        }
-      })
-      .catch(() => {
-        let response = new Response(false, "An error occured", null);
-        res.send(response);
-      });
-  } else {
-    await UserRecord.findOne({ email: email })
-      .then((record) => {
-        if (record.isGmail) {
-          let response = new Response(false, "Please log in with google", null);
-          res.send(response);
-        } else {
-          bcrypt.compare(password, record.password, function (err, result) {
-            if (err) {
-              let response = new Response(false, "An error occured", null);
-              res.send(response);
-            }
-            if (result) {
-              jwt.sign(
-                { record },
-                secretKey,
-                { expiresIn: "1d" },
-                (err, token) => {
-                  let response = new Response(true, null, record);
-                  response.token = token;
-                  res.send(response);
-                }
-              );
-            } else {
-              let response = new Response(false, "Incorrect password", null);
-              res.send(response);
-            }
-          });
-        }
-      })
-      .catch(() => {
-        let response = new Response(false, "Unable to find the account.", null);
-        res.send(response);
-      });
+          res.status(400).send(response);
+        });
+    }
   }
 };

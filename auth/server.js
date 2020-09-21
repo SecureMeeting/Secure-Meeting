@@ -3,6 +3,7 @@ const cors = require("cors");
 var https = require("https");
 var fs = require("fs");
 const colors = require("colors");
+const dotenv = require("dotenv").config();
 const connectDB = require("./config/db");
 const config = require("./config.json");
 
@@ -13,14 +14,14 @@ connectDB();
 const app = express();
 app.use(cors());
 app.use(express.json());
-const PORT = process.env.PORT || config.port;
+const PORT = process.env.PORT || 8080;
 
 const tls = {
   cert: fs.readFileSync(config.tls.cert),
   key: fs.readFileSync(config.tls.key),
 };
 
-https.createServer(tls, app).listen(config.port, function () {
+https.createServer(tls, app).listen(PORT, function () {
   console.log(`HTTPS Server running on port ${PORT}`.yellow.bold);
 });
 
@@ -28,8 +29,8 @@ https.createServer(tls, app).listen(config.port, function () {
 /*                               Api ROUTES                                   */
 /* -------------------------------------------------------------------------- */
 
-app.get("/", function (req, res) {
-  res.send("Hello World!");
+app.post("/auth", function (req, res) {
+  res.send("Successfully hit the authentication api!");
 });
 
 const authRouter = require("./routes/auth");

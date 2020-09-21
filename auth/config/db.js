@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const config = require("../config.json");
+
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(config.atlasuri, {
+    const conn = await mongoose.connect(process.env.MONGO_URL, {
       useNewUrlParser: true,
       useCreateIndex: true,
       useUnifiedTopology: true,

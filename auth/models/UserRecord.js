@@ -10,15 +10,15 @@ const UserRecordSchema = new Schema(
     },
     password: {
       type: String,
-      required: false,
+      required: true,
     },
     firstName: {
       type: String,
-      required: true,
+      required: false,
     },
     lastName: {
       type: String,
-      required: true,
+      required: false,
     },
     googleId: {
       type: String,
@@ -28,14 +28,10 @@ const UserRecordSchema = new Schema(
       type: String,
       required: false,
     },
-    waitList: {
-      type: String,
-      required: false,
-    },
     rooms: [
       {
         type: String,
-        required: true,
+        required: false,
       },
     ],
     emailedIsVerified: {
@@ -48,7 +44,7 @@ const UserRecordSchema = new Schema(
     },
     inviteCode: {
       type: String,
-      required: true,
+      required: false,
     },
     resetPassword: {
       type: String,
@@ -57,19 +53,19 @@ const UserRecordSchema = new Schema(
     friends: [
       {
         type: String,
-        required: true,
+        required: false,
       },
     ],
     invitedUsers: [
       {
         type: String,
-        required: true,
+        required: false,
       },
     ],
     friendRequests: [
       {
         type: String,
-        required: true,
+        required: false,
       },
     ],
     timeCreated: {
@@ -77,7 +73,7 @@ const UserRecordSchema = new Schema(
       required: true,
     },
   },
-  { collection: "Users" }
+  { collection: process.env.COLLECTION_NAME }
 );
 
 module.exports = mongoose.model("UserRecord", UserRecordSchema);
