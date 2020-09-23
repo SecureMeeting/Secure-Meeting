@@ -11,9 +11,9 @@ Microservices is an architectural style that structures an application as a coll
 - The microservice architecture enables the rapid, frequent and reliable delivery of large, complex applications. It also enables an organization to evolve its technology stack.
 
 .. image:: /pics/microservice.png
-    :width: 850px
+    :width: 600px
     :align: center
-    :height: 432px
+    :height: 320px
     :alt: microservices
 
 
