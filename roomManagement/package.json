@@ -4,7 +4,7 @@
   "description": "Manages rooms for webrtc video calls for SecureMeeting",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "node server.js",
     "test": "jest"
   },
   "author": "",

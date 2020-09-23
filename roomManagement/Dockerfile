@@ -1,5 +1,5 @@
 # Use the official image as a parent image.
-FROM node:current-slim
+FROM node:14
 
 LABEL maintainer="bryan@securemeeting.org"
 
@@ -14,4 +14,4 @@ EXPOSE 8080
 # Copy the rest of your app's source code from your host to your image filesystem.
 COPY . .
 # Run the specified command within the container.
-CMD [ "npm", "run", "start" ]
+CMD [ "npm", "start" ]
