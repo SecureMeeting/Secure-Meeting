@@ -10,9 +10,16 @@ Microservices is an architectural style that structures an application as a coll
 - Owned by a small team
 - The microservice architecture enables the rapid, frequent and reliable delivery of large, complex applications. It also enables an organization to evolve its technology stack.
 
+.. image:: /pics/microservice.png
+    :width: 200px
+    :align: center
+    :height: 100px
+    :alt: alternate text
+
+
 Each of these microservice is located in its own folder within the "Secure-Meeting" github repo: https://github.com/SecureMeeting/Secure-Meeting
 
-Each of these api microservices contains a folder for...
+Each of these api microservices contains a folder for
 - __test__ [ contains jest unit tests]
 - certs [contains a fullchain.pem and a privkey.pem file]
 - config [contains a db.js to connect to a mongodb]
@@ -21,7 +28,7 @@ Each of these api microservices contains a folder for...
 - models [contains mongodb schemas and javascript objects]
 - routes [maps out the api routes]
 
-Each of these microservices also contains a...
+Each of these microservices also contains a
 - server.js
 - Dockerfile
 - config.js
