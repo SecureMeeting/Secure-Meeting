@@ -25,6 +25,19 @@ Endpoints
 | POST   Auth Room       /room/auth     |
 +---------+---------+-------------------+
 
+.env
+^^^^^^^^^^
+
+::
+
+  MONGO_URL=mymongourl
+  PORT=8080
+  COLLECTION_NAME=Users
+  DB_NAME=Users
+  SALT_ROUNDS=10
+  SECRET_KEY=launchpad2022
+
+
 Room Model
 ^^^^^^^^^^
 
@@ -48,7 +61,6 @@ A room is a place where a all takes place.
       "$numberInt":"0"
     }
   }
-
 
 Attributes
 """"""""""

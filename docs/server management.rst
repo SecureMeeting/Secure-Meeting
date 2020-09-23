@@ -12,7 +12,6 @@ Base URL
 
 ``www.api.securemeeting.org/server``   
 
-
 Endpoints
 ^^^^^^^^^
 +---------+---------+------------------------+
@@ -24,6 +23,18 @@ Endpoints
 +---------+---------+------------------------+
 | DEL    Delete Servers     /server/delete   |
 +---------+---------+------------------------+
+
+.env
+^^^^^^^^^^
+
+::
+
+  MONGO_URL=mymongourl
+  PORT=8080
+  COLLECTION_NAME=Users
+  DB_NAME=Users
+  SALT_ROUNDS=10
+  SECRET_KEY=launchpad2022
 
 Server Model
 ^^^^^^^^^^^^

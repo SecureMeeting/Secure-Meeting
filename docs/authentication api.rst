@@ -18,3 +18,15 @@ Endpoints
 +---------+---------+-------------------+
 | POST   Signup        /auth/signup     |
 +---------+---------+-------------------+
+
+.env
+^^^^^^^^^^
+
+::
+
+  MONGO_URL=mymongourl
+  PORT=8080
+  COLLECTION_NAME=Users
+  DB_NAME=Users
+  SALT_ROUNDS=10
+  SECRET_KEY=launchpad2022
