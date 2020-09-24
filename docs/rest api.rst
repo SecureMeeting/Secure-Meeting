@@ -1,0 +1,20 @@
+Rest Apis
++++++++++
+
+Whats a Rest Api?
+^^^^^^^^^^^^^^^^^
+An API is an application programming interface - in short, it’s a set of rules that lets programs 
+talk to each other, exposing data and functionality across the internet in a consistent format.
+
+REST stands for Representational State Transfer. This is an architectural pattern that describes
+how distributed systems can expose a consistent interface. When people use the term ‘REST API,’ 
+they are generally referring to an API accessed via HTTP protocol at a predefined set of URLs.
+
+These URLs represent various resources - any information or content accessed at that location, 
+which can be returned as JSON, HTML, audio files, or images. Often, resources have one or more 
+methods that can be performed on them over HTTP, like GET, POST, PUT and DELETE.
+
+Secure-Meeting, for example, provides many separate REST APIs for sending messages, making calls, 
+Creating accounts, managing your accounts, and a whole lot more. In Secure-Meetings' ecosystem, 
+each part of the product has is its own API, but you will work with each of them in roughly the same way, 
+whether over HTTP or using Websockets.
