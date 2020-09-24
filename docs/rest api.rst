@@ -24,3 +24,15 @@ Secure-Meeting, for example, provides many separate REST APIs for sending messag
 Creating accounts, managing your accounts, and a whole lot more. In Secure-Meetings' ecosystem, 
 each part of the product has is its own API, but you will work with each of them in roughly the same way, 
 whether over HTTP or using Websockets.
+
+Api Authentication
+^^^^^^^^^^^^^^^^^^
+
+In order to authenticate api requests, Secure Meeting uses Json Web Tokens. 
+JSON Web Token is an Internet standard for creating data with optional
+signature and/or optional encryption whose payload holds JSON that asserts
+some number of claims.
+
+In order for a client to obtain these tokens to make futher requests, they must either login or create an account.
+These requests both return an authentication token when successfully completed. These tokens are saved in the client's
+local storage and used in later requests. 
