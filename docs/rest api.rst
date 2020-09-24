@@ -1,6 +1,12 @@
 Rest Apis
 +++++++++
 
+.. image:: /pics/rest.png
+    :width: 600px
+    :align: center
+    :height: 320px
+    :alt: microservices
+
 Whats a Rest Api?
 ^^^^^^^^^^^^^^^^^
 An API is an application programming interface - in short, it’s a set of rules that lets programs 
