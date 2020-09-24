@@ -6,7 +6,6 @@ const createRoomController = require("../controllers/createRoomController");
 const deleteRoomController = require("../controllers/deleteRoomController");
 const getRoomController = require("../controllers/getRoomController");
 const scheduleRoomController = require("../controllers/scheduleRoomController");
-//Local imports-----------------------------------------
 
 router.route("/create").post(createRoomController.createRoom);
 
