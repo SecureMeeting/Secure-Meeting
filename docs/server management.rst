@@ -93,6 +93,22 @@ Request
     "ip": "192.168.1.1"
  }
 
+Response
+::
+
+  {
+      "isSuccess": true,
+      "errorName": null,
+      "payload": {
+          "country": "US",
+          "region": "US-East3",
+          "ip": "192.168.1.1",
+          "type": "SFU",
+          "timeCreated": "2020-09-25T00:58:36-04:00"
+      }
+  }
+
+
 
 Get a Server
 ^^^^^^^^^^^^
@@ -108,6 +124,23 @@ Request
       "ip": "192.168.1.1"
   }
 
+Response
+::
+
+  {
+      "isSuccess": true,
+      "errorName": null,
+      "payload": {
+          "_id": "5f6d78fcd07e461de3bc22cf",
+          "country": "US",
+          "region": "US-East3",
+          "ip": "192.168.1.1",
+          "type": "SFU",
+          "timeCreated": "2020-09-25T00:58:36-04:00",
+          "__v": 0
+      }
+  }
+
 Get all Servers
 ^^^^^^^^^^^^^^^
 
@@ -116,6 +149,34 @@ Obtains a server record based on the ip.
 ``GET`` ``www.api.securemeeting.org/server/getAll``
 
 There is no request
+
+Response
+::
+
+  {
+      "isSuccess": true,
+      "errorName": null,
+      "payload": [
+          {
+              "_id": "5f6d7966d07e461de3bc22d1",
+              "country": "US",
+              "region": "US-East3",
+              "ip": "192.168.1.123",
+              "type": "SFU",
+              "timeCreated": "2020-09-25T01:00:22-04:00",
+              "__v": 0
+          },
+          {
+              "_id": "5f6d796bd07e461de3bc22d2",
+              "country": "US",
+              "region": "US-East3",
+              "ip": "192.168.1.4",
+              "type": "SFU",
+              "timeCreated": "2020-09-25T01:00:27-04:00",
+              "__v": 0
+          }
+      ]
+  }
 
 Delete a Server
 ^^^^^^^^^^^^^^^
@@ -131,4 +192,11 @@ Request
       "ip": "192.168.1.1"
   }
 
+Response
+::
 
+  {
+      "isSuccess": true,
+      "errorName": null,
+      "payload": true
+  }

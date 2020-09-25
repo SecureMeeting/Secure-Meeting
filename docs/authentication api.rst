@@ -5,8 +5,30 @@ In order to create a place to communicate, you must create a **ROOM**.
 Room Management deals with creating, updating, and deleting a room.
 When a room is established a call can now take place in it.
 
+
+Storing the Authentication Token
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When a user logs in or signs up, they are given an authentication token. This authentication has 
+been signed by the server and contains a token which expires after a given amount of time. This 
+authentication token needs to be saved locally in order to use it in future api requests.
+
+
+Saving the token
+^^^^^^^^^^^^^^^^
+
+::
+
+  const getJwt = async () => {
+      const { data } = await axios.get(`${apiUrl}/jwt`);
+      localStorage.setItem('token', data.token);
+    };
+
+``www.api.securemeeting.org/auth``   
+
+
 Base URL
-^^^^^^^^^^^^^
+^^^^^^^^
 
 ``www.api.securemeeting.org/auth``   
 
@@ -66,23 +88,23 @@ Attributes
 ``_id`` *string*
   Unique identifier for the object.
 
-``roomName`` *string*
-  The unique name of the room.
-
-``timeCreated`` *string*
-  A *moment.js* formatted time representing when the room was created.
-
-``timeCreated`` *string*
-  A *moment.js* formatted time representing when the room should open.
-
-``createdBy`` *string*
-  The id of the user that created this room.
-
 ``password`` *string*
-  The encrypted password of the room. Encrypted using bcrypt.
+  The password of the account, which is encrypted with bcrypt.
 
-``members`` *array[string]*
-  The id's of the members allowed to join the room.
+``firstName`` *string*
+  The first name of the user.
+
+``lastName`` *string*
+  The last name of the user.
+
+``emailedIsVerified`` *boolean*
+  If the user's email is verified. If a user signed in with google oath, 
+
+``emailVerification`` *string*
+  The email verification code of the user which will be sent in an email.
+
+``inviteCode`` *string*
+  The invite code of the user.
 
 
 Login
@@ -100,6 +122,30 @@ Request
       "password": "helloworld123",
   }
 
+Response
+::
+
+  {
+      "isSuccess": true,
+      "errorName": null,
+      "payload": {
+          "email": "kyritzb123@gmail.com",
+          "password": "$2b$10$vxj5iqToM5iVaJNOyR6kMuD6z2nPkhclG7Nqu2zHMttYYFF9V8ylW",
+          "firstName": "bry",
+          "lastName": "kyr",
+          "rooms": [],
+          "emailedIsVerified": false,
+          "emailVerification": "d4ac44e3-9b56-4753-ad0c-06fdf59b4697",
+          "friends": [],
+          "friendRequests": [],
+          "timeCreated": "2020-09-25T01:01:34-04:00",
+          "inviteCode": "wJzgOe",
+          "invitedUsers": []
+      },
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZWNvcmQiOm51bGwsImlhdCI6MTYwMTAxMDA5NCwiZXhwIjoxNjAxMDk2NDk0fQ.Yidy-HxFfE8hXF9-E4A6SgMPMtSIxk7BTOXjnQSry_s"
+  }
+
+
 
 Signup
 ^^^^^^
@@ -114,4 +160,27 @@ Request
   {
       "email": "hello@gmail.com",
       "password": "helloworld123",
+  }
+
+Response
+::
+
+  {
+      "isSuccess": true,
+      "errorName": null,
+      "payload": {
+          "email": "kyritzb123@gmail.com",
+          "password": "$2b$10$vxj5iqToM5iVaJNOyR6kMuD6z2nPkhclG7Nqu2zHMttYYFF9V8ylW",
+          "firstName": "bry",
+          "lastName": "kyr",
+          "rooms": [],
+          "emailedIsVerified": false,
+          "emailVerification": "d4ac44e3-9b56-4753-ad0c-06fdf59b4697",
+          "friends": [],
+          "friendRequests": [],
+          "timeCreated": "2020-09-25T01:01:34-04:00",
+          "inviteCode": "wJzgOe",
+          "invitedUsers": []
+      },
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZWNvcmQiOm51bGwsImlhdCI6MTYwMTAxMDA5NCwiZXhwIjoxNjAxMDk2NDk0fQ.Yidy-HxFfE8hXF9-E4A6SgMPMtSIxk7BTOXjnQSry_s"
   }

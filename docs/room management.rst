@@ -135,6 +135,21 @@ Request
       "members": []
   }
 
+Response
+::
+
+  {
+      "isSuccess": true,
+      "errorName": null,
+      "payload": {
+          "roomName": "castle123",
+          "timeCreated": "2020-09-25T00:42:01-04:00",
+          "scheduledTime": "12/12/2000",
+          "createdBy": "kyritzb@gmail.com",
+          "members": []
+      }
+  }
+
 Get a Room
 ^^^^^^^^^^
 
@@ -148,6 +163,23 @@ Request
   {
       "roomName": "castle"
   }
+  
+Response
+::
+
+  {
+      "isSuccess": true,
+      "errorName": null,
+      "payload": {
+          "members": [],
+          "_id": "5f6d65635eefc60277bcd473",
+          "roomName": "castle",
+          "timeCreated": "2020-09-24T23:34:59-04:00",
+          "createdBy": "kyritzb@gmail.com",
+          "__v": 0
+      }
+  }
+
 
 Delete a Room
 ^^^^^^^^^^^^^
@@ -163,6 +195,13 @@ Request
       "roomName": "castle"
   }
 
+Response
+::
+  {
+      "isSuccess": true,
+      "errorName": null,
+      "payload": true
+  }
 
 Authenticate a Room
 ^^^^^^^^^^^^^^^^^^^
@@ -178,5 +217,7 @@ Request
       "roomName": "castle",
       "password": "helloWorld"
   }
+
+
 
 
