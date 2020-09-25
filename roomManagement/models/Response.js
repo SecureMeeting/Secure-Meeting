@@ -2,7 +2,7 @@
  * Response Object
  * @param {Boolean} isSuccess if the request was succesful
  * @param {String} errorName the kind of error the server had
- * @param {Object} payload the dta to be returned
+ * @param {Object} payload the data to be returned
  */
 class Response {
   constructor(isSuccess, errorName, payload) {

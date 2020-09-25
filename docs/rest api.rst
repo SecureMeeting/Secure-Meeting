@@ -55,3 +55,16 @@ Response
           this.payload = payload;
       }
   }
+
+
+Attributes
+""""""""""
+``isSuccess`` *boolean*
+  If the request was succesful.
+
+``errorName`` *string*
+  The kind of error the server had.
+
+``payload`` *object*
+  The data to be returned.
+
