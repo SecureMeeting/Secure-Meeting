@@ -36,3 +36,22 @@ some number of claims.
 In order for a client to obtain these tokens to make futher requests, they must either login or create an account.
 These requests both return an authentication token when successfully completed. These tokens are saved in the client's
 local storage and used in later requests. 
+
+Api Responses
+^^^^^^^^^^^^^
+
+To ensure a standard response across the variety Secure Meeting microservices, we use a very simple response object for every api request.
+
+The response object is shown below.
+
+Response
+::
+  class Response 
+  {
+      constructor(isSuccess, errorName, payload) 
+      {
+          this.isSuccess = isSuccess;
+          this.errorName = errorName;
+          this.payload = payload;
+      }
+  }

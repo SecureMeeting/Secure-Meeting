@@ -102,6 +102,20 @@ Request
       "members": []
   }
 
+Response
+::
+
+  {
+      "isSuccess": true,
+      "errorName": null,
+      "payload": {
+          "roomName": "castle",
+          "timeCreated": "2020-09-24T23:34:59-04:00",
+          "createdBy": "kyritzb@gmail.com",
+          "members": []
+      }
+  }
+
 
 Schedule a Room
 ^^^^^^^^^^^^^^^
