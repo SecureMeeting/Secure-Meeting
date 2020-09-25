@@ -24,6 +24,28 @@ Saving the token
       localStorage.setItem('token', data.token);
     };
 
+Using the auth token
+^^^^^^^^^^^^^^^^^^^^
+
+To use an athentication token you must add it to the header in your api request.
+
+
+Example
+::
+
+  let authToken = localStorage.getItem("auth_token");
+    axios
+      .get(urlEndpoint, {
+        headers: { Authorization: "Bearer " + authToken },
+      })
+      .then(function (response) {
+        resolve(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  });
+
 ``www.api.securemeeting.org/auth``   
 
 
