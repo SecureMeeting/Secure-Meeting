@@ -28,8 +28,6 @@ Using the auth token
 ^^^^^^^^^^^^^^^^^^^^
 
 To use an athentication token you must add it to the header in your api request.
-This will allow the server to respond to your request.
-
 
 Example
 ::

@@ -7,7 +7,7 @@ const { Response } = require("../models/Response");
 exports.createRoom = async (req, res, next) => {
   const password = req.body.password;
 
-  bcrypt.hash(password, process.env.SALT_ROUNDS, async function (
+  bcrypt.hash(password, parseInt(process.env.SALT_ROUNDS), async function (
     err,
     hashPassword
   ) {

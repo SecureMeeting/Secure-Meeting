@@ -37,6 +37,11 @@ exports.authenticateRoom = async (req, res) => {
             err,
             result
           ) {
+            console.log(err);
+            if (err) {
+              let response = new Response(false, "An error occured", null);
+              res.status(400).send(response);
+            }
             if (result) {
               let response = new Response(true, null, result);
               return res.status(200).send(response);
@@ -46,7 +51,7 @@ exports.authenticateRoom = async (req, res) => {
                 "Incorrect Room Password",
                 null
               );
-              return res.status(200).send(response);
+              return res.status(400).send(response);
             }
           });
         }

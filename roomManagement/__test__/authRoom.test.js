@@ -125,10 +125,14 @@ describe("Testing the Authenticate Room Endpoint", () => {
 
     let createRoomRes = await request(app).post("/room/create").send(mockRoom);
 
+    console.log(createRoomRes.body);
+
     return request(app)
       .post("/room/auth")
       .send(req)
       .then((response) => {
+        console.log(response.status);
+        console.log(response.body);
         expect(response.statusCode).toBe(200);
         expect(response.body.isSuccess).toBe(true);
         expect(response.body.errorName).toBe(null);
