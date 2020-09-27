@@ -13,6 +13,9 @@ RUN npm install
 EXPOSE 8080
 EXPOSE 443
 EXPOSE 80
+
+
+
 # Copy the rest of your app's source code from your host to your image filesystem.
 COPY . .
 # Run the specified command within the container.
