@@ -10,10 +10,10 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'b6a5c945-69d2-4eac-96f7-2d3d166270ba'
-  imageRepository: 'securemeeting-roommanagementapi'
+  dockerRegistryServiceConnection: 'b8d5ec1a-53be-4e91-ab7f-d07d3389a23a'
+  imageRepository: 'securemeeting-authenticationapi'
   containerRegistry: 'smreg.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/roomManagement/Dockerfile'
+  dockerfilePath: '$(Build.SourcesDirectory)/auth/Dockerfile'
   tag: '$(Build.BuildId)'
   
   # Agent VM image name
