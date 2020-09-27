@@ -4,7 +4,7 @@
   "description": "Manages a list of servers for the signalling api",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "node server.js",
     "test": "jest"
   },
   "author": "",
