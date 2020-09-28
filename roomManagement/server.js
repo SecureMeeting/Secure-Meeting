@@ -34,6 +34,7 @@ https.createServer(tls, app).listen(PORT, function () {
 
 app.post("/", function (req, res) {
   res.send("Successfully hit the room managegment api!");
+  console.log("yeah");
 });
 
 app.post("/room", function (req, res) {

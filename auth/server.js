@@ -31,6 +31,7 @@ https.createServer(tls, app).listen(PORT, function () {
 
 app.post("/", function (req, res) {
   res.send("Successfully hit the authentication api!");
+  console.log("yeah");
 });
 
 app.post("/auth", function (req, res) {
