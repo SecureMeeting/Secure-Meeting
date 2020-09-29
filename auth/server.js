@@ -21,15 +21,15 @@ const tls = {
   key: fs.readFileSync(config.tls.key),
 };
 
-const requestListener = function (req, res) {
-  res.writeHead(200);
-  res.send("Successfully hit the authentication api!");
-};
-
-https.createServer(tls, app, requestListener).listen(PORT, function () {
+https.createServer(tls, app).listen(PORT, function () {
   console.log(`HTTPS Server running on port ${PORT}`.yellow.bold);
 });
 
+app.use(function (req, res) {
+  res.type("text/plain");
+  res.status(404);
+  res.send("404 not found");
+});
 /* -------------------------------------------------------------------------- */
 /*                               Api ROUTES                                   */
 /* -------------------------------------------------------------------------- */
