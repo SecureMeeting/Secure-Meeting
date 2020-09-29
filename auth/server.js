@@ -21,18 +21,18 @@ const tls = {
   key: fs.readFileSync(config.tls.key),
 };
 
-https.createServer(tls, app).listen(PORT, function () {
+const requestListener = function (req, res) {
+  res.writeHead(200);
+  res.send("Successfully hit the authentication api!");
+};
+
+https.createServer(tls, app, requestListener).listen(PORT, function () {
   console.log(`HTTPS Server running on port ${PORT}`.yellow.bold);
 });
 
 /* -------------------------------------------------------------------------- */
 /*                               Api ROUTES                                   */
 /* -------------------------------------------------------------------------- */
-
-app.post("/", function (req, res) {
-  res.send("Successfully hit the authentication api!");
-  console.log("yeah");
-});
 
 app.post("/auth", function (req, res) {
   res.send("Successfully hit the authentication api!");
