@@ -32,15 +32,15 @@ stages:
           - task: PublishTestResults@2
             inputs:
               testResultsFormat: 'JUnit'
-              testResultsFiles: 'junit.xml'
+              testResultsFiles: '$(System.DefaultWorkingDirectory)/roomManagement/junit.xml'
               mergeTestResults: true
               failTaskOnFailedTests: true
               testRunTitle: 'Jest Unit Tests'
           - task: PublishCodeCoverageResults@1
             inputs:
               codeCoverageTool: 'Cobertura'
-              summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
-              pathToSources: '$(System.DefaultWorkingDirectory)/coverage'
+              summaryFileLocation: '$(System.DefaultWorkingDirectory)/roomManagement/coverage/cobertura-coverage.xml'
+              pathToSources: '$(System.DefaultWorkingDirectory)/roomManagement/coverage'
               failIfCoverageEmpty: true
           - task: Docker@2
             displayName: Build and push an image to container registry
