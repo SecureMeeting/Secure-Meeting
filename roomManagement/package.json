@@ -6,9 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "jest",
-    "test-ci": "node_modules/.bin/jest --ci --reporters=jest-junit --reporters=default",
-    "coverage": "jest --coverage",
-    "coverage-ci": "node_modules/.bin/jest --ci --reporters=jest-junit --coverage --coverageReporters=cobertura"
+    "test-ci": "jest --ci --reporters=default --reporters=jest-junit --coverage --coverageReporters=cobertura"
   },
   "author": "",
   "license": "ISC",
@@ -21,15 +19,15 @@
     "moment": "^2.27.0",
     "mongodb": "^3.6.1",
     "mongoose": "^5.10.4",
-    "save": "^2.4.0"
-  },
-  "devDependencies": {
+    "save": "^2.4.0",
     "@shelf/jest-mongodb": "^1.2.3",
     "jest": "^26.4.2",
     "jest-junit": "^11.1.0",
+    "jest-junit-reporter": "^1.1.0",
     "nodemon": "^2.0.4",
     "supertest": "^4.0.2"
   },
+  "devDependencies": {},
   "jest": {
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
