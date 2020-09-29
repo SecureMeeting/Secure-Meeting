@@ -27,7 +27,7 @@ stages:
         steps:
           - task: Npm@1
             inputs:
-              command: 'run ci'
+              command: 'ci'
               workingDir: '$(System.DefaultWorkingDirectory)/roomManagement'
           - task: PublishCodeCoverageResults@1
             inputs:
