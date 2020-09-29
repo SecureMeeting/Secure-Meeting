@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-var https = require("https");
+var http = require("http");
 var fs = require("fs");
 const colors = require("colors");
 const dotenv = require("dotenv").config();
@@ -14,14 +14,14 @@ connectDB();
 const app = express();
 app.use(cors());
 app.use(express.json());
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT;
 
 const tls = {
   cert: fs.readFileSync(config.tls.cert),
   key: fs.readFileSync(config.tls.key),
 };
 
-https.createServer(tls, app).listen(PORT, function () {
+http.createServer(app).listen(PORT, function () {
   console.log(`HTTPS Server running on port ${PORT}`.yellow.bold);
 });
 
