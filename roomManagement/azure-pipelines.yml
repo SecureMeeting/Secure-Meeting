@@ -1,4 +1,10 @@
 # Docker
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/MyApp/**/site/cobertura/coverage.xml'
+    reportDirectory: '$(System.DefaultWorkingDirectory)/MyApp/**/site/cobertura'
+    failIfCoverageEmpty: true
 # Build and push an image to Azure Container Registry
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
