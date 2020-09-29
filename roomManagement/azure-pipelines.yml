@@ -28,6 +28,7 @@ stages:
           - task: Npm@1
             inputs:
               command: 'ci'
+              workingDir: '$(Build.SourcesDirectory)/roomManagement'
           - task: PublishCodeCoverageResults@1
             inputs:
               codeCoverageTool: 'Cobertura'
