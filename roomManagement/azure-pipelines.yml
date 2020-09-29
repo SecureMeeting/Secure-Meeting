@@ -27,6 +27,10 @@ stages:
         steps:
           - task: Npm@1
             inputs:
+              command: 'install'
+              workingDir: '$(System.DefaultWorkingDirectory)/roomManagement'
+          - task: Npm@1
+            inputs:
               command: 'ci'
               workingDir: '$(System.DefaultWorkingDirectory)/roomManagement'
           - task: PublishTestResults@2
