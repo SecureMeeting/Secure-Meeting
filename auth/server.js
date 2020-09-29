@@ -25,11 +25,6 @@ http.createServer(app).listen(PORT, function () {
   console.log(`HTTPS Server running on port ${PORT}`.yellow.bold);
 });
 
-app.use(function (req, res) {
-  res.type("text/plain");
-  res.status(404);
-  res.send("404 not found");
-});
 /* -------------------------------------------------------------------------- */
 /*                               Api ROUTES                                   */
 /* -------------------------------------------------------------------------- */
