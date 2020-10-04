@@ -1,0 +1,6 @@
+{
+  "tls": {
+    "cert": "./certs/fullchain.pem",
+    "key": "./certs/privkey.pem"
+  }
+}
