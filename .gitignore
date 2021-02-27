@@ -1,18 +1,22 @@
 /auth/node_modules
 /email/node_modules
 /p2p/node_modules
+/payment/node_modules
 /roomManagement/node_modules
 /serverManagement/node_modules
 /sfu/node_modules
+/sfuold/node_modules
 /signalling/node_modules
 /syncableServer/node_modules
 
 /auth/.env
 /email/.env
 /p2p/.env
+/payment/.env
 /roomManagement/.env
 /serverManagement/.env
 /sfu/.env
+/sfuold/.env
 /signalling/.env
 /syncableServer/.env
 
