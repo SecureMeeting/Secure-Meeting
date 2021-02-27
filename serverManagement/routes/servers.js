@@ -8,11 +8,8 @@ const getAllServersController = require("../controllers/getAllServerController")
 //Local imports-----------------------------------------
 
 router.route("/create").post(createServerController.createServer);
-
 router.route("/delete").delete(deleteServerController.deleteServer);
-
 router.route("/get").get(getServerController.getServer);
-
 router.route("/getAll").get(getAllServersController.getAllServers);
 
 module.exports = router;

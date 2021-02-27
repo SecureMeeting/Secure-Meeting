@@ -50,6 +50,10 @@ const UserRecordSchema = new Schema(
       type: String,
       required: false,
     },
+    resetPasswordCodeTime: {
+      type: String,
+      required: false,
+    },
     friends: [
       {
         type: String,
