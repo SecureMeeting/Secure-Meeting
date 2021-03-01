@@ -12,17 +12,11 @@ const MongoStore = require("connect-mongo")(session);
 
 const PORT = process.env.PORT;
 
-const tls = {
-  cert: fs.readFileSync(config.tls.cert),
-  key: fs.readFileSync(config.tls.key),
-};
-
 console.log("----------------------------------");
 console.log("|  Auth Microservice is running  |");
 console.log("----------------------------------");
 console.log("Environment: ", process.env.NODE_ENV);
 console.log("Client: ", process.env.CLIENT);
-console.log("Starting at: ", Date.now());
 console.log("Running on port:", PORT);
 
 /* ------------------------ Connect to Mongo Database ----------------------- */

@@ -9,9 +9,10 @@ const reestablishSessionController = require("../controllers/ReestablishSessionC
 const forgotPasswordController = require("../controllers/forgotPasswordController");
 const verifyEmailController = require("../controllers/verifyEmailController");
 const resetPasswordController = require("../controllers/resetPasswordController");
-
+const helloWorldController = require("../controllers/helloWorldController");
 //Local imports-----------------------------------------
 
+router.route("/").get(helloWorldController.helloWorld);
 router.route("/login").post(loginController.login);
 router.route("/signup").post(signupController.signup);
 router.route("/forgotPassword").post(forgotPasswordController.forgotPassword);

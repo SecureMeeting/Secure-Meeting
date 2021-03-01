@@ -19,7 +19,9 @@ exports.login = async (req, res) => {
   const password = req.body.password;
   const stayLoggedIn = req.body.stayLoggedIn;
 
-  email = email.toLowerCase();
+  if (email) {
+    email = email.toLowerCase();
+  }
 
   //checks for null and empty values
   if (email === null || email === undefined || email === "") {

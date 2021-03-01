@@ -56,6 +56,8 @@ async function init() {
   await initSockets();
   // Run a mediasoup Worker.
   await runMediasoupWorkers();
+
+  //Call Server Management api and say the server is up and running.
 }
 
 //======================================================================================================
