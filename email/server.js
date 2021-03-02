@@ -7,7 +7,7 @@ const dotenv = require("dotenv").config();
 const PORT = process.env.PORT;
 
 console.log("----------------------------------");
-console.log("|  Auth Microservice is running  |");
+console.log("|  Email Microservice is running  |");
 console.log("----------------------------------");
 console.log("Environment: ", process.env.NODE_ENV);
 console.log("Running on port:", PORT);

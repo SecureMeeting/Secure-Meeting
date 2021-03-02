@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const UserRecord = require("../models/UserRecord");
 const { Response } = require("../models/Response");
 const config = require("../config.json");
+const axios = require("axios");
 const { v4: uuidv4 } = require("uuid");
 
 /**
@@ -30,9 +31,18 @@ exports.forgotPassword = async (req, res) => {
           let time = moment().format();
           record.resetPassword = code;
           record.resetPasswordCodeTime = time;
+
           record
             .save()
-            .then(() => {
+            .then(async () => {
+              let emailRequest = {
+                email: record.email,
+                code: record.resetPassword,
+              };
+              await axios.post(
+                process.env.API_URL + "/email/forgotPassword",
+                emailRequest
+              );
               let response = new Response(true, null, true);
               res.status(200).send(response);
             })

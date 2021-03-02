@@ -7,14 +7,14 @@ const api = apiAdapter(BASE_URL);
 
 //login endpoint
 router.post("/auth/login", (req, res) => {
-  api.post(req.path).then((resp) => {
+  api.post(req.path, req.body).then((resp) => {
     res.send(resp.data);
   });
 });
 
 //signup endpoint
 router.post("/auth/signup", (req, res) => {
-  api.post(req.path).then((resp) => {
+  api.post(req.path, req.body).then((resp) => {
     res.send(resp.data);
   });
 });
@@ -28,7 +28,7 @@ router.get("/auth/signout", (req, res) => {
 
 //isSignedIn endpoint
 router.post("/auth/isSignedIn", (req, res) => {
-  api.post(req.path).then((resp) => {
+  api.post(req.path, req.body).then((resp) => {
     res.send(resp.data);
   });
 });
@@ -49,14 +49,14 @@ router.get("/auth/verifyEmail", (req, res) => {
 
 //resetPassword endpoint
 router.post("/auth/resetPassword", (req, res) => {
-  api.post(req.path).then((resp) => {
+  api.post(req.path, req.body).then((resp) => {
     res.send(resp.data);
   });
 });
 
 //forgotPassword endpoint
 router.post("/auth/forgotPassword", (req, res) => {
-  api.post(req.path).then((resp) => {
+  api.post(req.path, req.body).then((resp) => {
     res.send(resp.data);
   });
 });

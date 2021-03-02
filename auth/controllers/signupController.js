@@ -2,6 +2,7 @@ const moment = require("moment");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
+const axios = require("axios");
 
 const UserRecord = require("../models/UserRecord");
 const { Response } = require("../models/Response");
@@ -94,8 +95,20 @@ exports.signup = async (req, res) => {
               } else {
                 newUserRecord
                   .save()
-                  .then(() => {
+                  .then(async () => {
+                    //successfull signup
                     let response = new Response(true, null, newUser);
+                    let emailRequest = {
+                      email: newUser.email,
+                      firstName: newUser.firstName,
+                      lastName: newUser.lastName,
+                      code: newUser.emailVerification,
+                    };
+                    await axios.post(
+                      process.env.API_URL + "/email/verifyEmail",
+                      emailRequest
+                    );
+
                     jwt.sign(
                       { record },
                       process.env.SECRET_KEY,

@@ -54,6 +54,7 @@ exports.verifyEmail = async (req, res) => {
       res.status(400).send(response);
     } else {
       let response = new Response(true, null, true);
+      console.log("sent email to ", email);
       res.status(200).send(response);
     }
   });

@@ -1,0 +1,1 @@
+concurrently "cd auth && npm start" "cd email && npm start" 

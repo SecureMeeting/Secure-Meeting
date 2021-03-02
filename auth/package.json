@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@shelf/jest-mongodb": "^1.2.3",
+    "axios": "^0.21.1",
     "bcrypt": "^5.0.0",
     "colors": "^1.4.0",
     "connect-mongo": "^3.2.0",

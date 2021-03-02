@@ -7,14 +7,14 @@ const api = apiAdapter(BASE_URL);
 
 //forgotPassword endpoint
 router.post("/email/forgotPassword", (req, res) => {
-  api.post(req.path).then((resp) => {
+  api.post(req.path, req.body).then((resp) => {
     res.send(resp.data);
   });
 });
 
 //verifyEmail endpoint
 router.post("/email/verifyEmail", (req, res) => {
-  api.post(req.path).then((resp) => {
+  api.post(req.path, req.body).then((resp) => {
     res.send(resp.data);
   });
 });

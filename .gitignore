@@ -1,5 +1,6 @@
 /auth/node_modules
 /email/node_modules
+/gateway/node_modules
 /p2p/node_modules
 /payment/node_modules
 /roomManagement/node_modules
@@ -11,6 +12,7 @@
 
 /auth/.env
 /email/.env
+/gateway/.env
 /p2p/.env
 /payment/.env
 /roomManagement/.env
