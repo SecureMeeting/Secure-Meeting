@@ -15,7 +15,7 @@ module.exports = {
   domain: process.env.DOMAIN || "localhost",
   // Signaling settings (protoo WebSocket server and HTTP API server).
   https: {
-    listenIp: process.env.MEDIASOUP_LISTEN_IP || "172.27.240.1",
+    listenIp: process.env.MEDIASOUP_LISTEN_IP || "172.24.83.12",
     // NOTE: Don't change listenPort (client app assumes 4443).
     listenPort: process.env.PROTOO_LISTEN_PORT || 4443,
     // NOTE: Set your own valid certificate files.
@@ -102,8 +102,8 @@ module.exports = {
     webRtcTransportOptions: {
       listenIps: [
         {
-          ip: process.env.MEDIASOUP_LISTEN_IP || "172.27.240.1",
-          announcedIp: process.env.MEDIASOUP_ANNOUNCED_IP || "172.27.240.1",
+          ip: process.env.MEDIASOUP_LISTEN_IP || "172.24.83.12",
+          announcedIp: process.env.MEDIASOUP_ANNOUNCED_IP || "172.24.83.12",
         },
       ],
       initialAvailableOutgoingBitrate: 1000000,
@@ -117,8 +117,8 @@ module.exports = {
     // See https://mediasoup.org/documentation/v3/mediasoup/api/#PlainTransportOptions
     plainTransportOptions: {
       listenIp: {
-        ip: process.env.MEDIASOUP_LISTEN_IP || "172.27.240.1",
-        announcedIp: process.env.MEDIASOUP_ANNOUNCED_IP || "172.27.240.1",
+        ip: process.env.MEDIASOUP_LISTEN_IP || "172.24.83.12",
+        announcedIp: process.env.MEDIASOUP_ANNOUNCED_IP || "172.24.83.12",
       },
       maxSctpMessageSize: 262144,
     },

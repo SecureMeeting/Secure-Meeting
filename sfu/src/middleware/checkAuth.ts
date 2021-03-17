@@ -5,7 +5,7 @@
  * @param {*} next
  */
 
-function verifyToken(req: any, res: any, next: Function) {
+export default function verifyToken(req: any, res: any, next: Function) {
   const bearerHeader = req.headers["authorization"];
   if (typeof bearerHeader !== "undefined") {
     const bearer = bearerHeader.split(" ");
@@ -16,5 +16,3 @@ function verifyToken(req: any, res: any, next: Function) {
     res.status(403).send("Invalid authorization token");
   }
 }
-
-export { verifyToken };

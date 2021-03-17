@@ -1,3 +1,4 @@
+import roomManagement from "../src/RoomManagement";
 /**
  * API GET resource that returns the mediasoup Router RTP capabilities of
  * the room.
@@ -138,6 +139,73 @@ export async function createBroadcasterConsumer(req: any, res: any, next: any) {
 
     res.status(200).json(data);
   } catch (error) {
-    next(error);
+    console.error(error);
+  }
+}
+
+export async function createWebRtcTransport(req: any, res: any, next: any) {
+  const { forceTcp, producing, consuming, sctpCapabilities } = req.body;
+
+  try {
+    const createWebRtcTransportResponse = await req.room.createWebRtcTransport(
+      req.peer,
+      forceTcp,
+      producing,
+      consuming,
+      sctpCapabilities
+    );
+
+    res.status(200).json(createWebRtcTransportResponse);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function connectWebRtcTransport(req: any, res: any, next: any) {
+  const { transportId, dtlsParameters } = req.body;
+
+  try {
+    await req.room.connectWebRtcTransport(
+      req.peer,
+      transportId,
+      dtlsParameters
+    );
+
+    res.status(200).json(true);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function join(req: any, res: any, next: any) {
+  const { device, rtpCapabilities, sctpCapabilities } = req.body;
+
+  try {
+    let roomCreatedResponse = await req.room.join(
+      req.peer,
+      device,
+      rtpCapabilities,
+      sctpCapabilities
+    );
+    res.status(200).json(roomCreatedResponse);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function produce(req: any, res: any, next: any) {
+  const { transportId, kind, rtpParameters, appData } = req.body;
+
+  try {
+    let produceResponse = await req.room.produce(
+      req.peer,
+      transportId,
+      kind,
+      rtpParameters,
+      appData
+    );
+    res.status(200).json(produceResponse);
+  } catch (error) {
+    console.error(error);
   }
 }

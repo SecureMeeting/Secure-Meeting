@@ -3,14 +3,28 @@ import cors from "cors";
 import http from "http";
 import dotenv from "dotenv";
 import colors from "colors";
-const mediasoup = require("mediasoup");
+import mediasoup from "mediasoup";
+
+// Or using destructuring assignment.
+import {
+  types,
+  version,
+  observer,
+  createWorker,
+  getSupportedRtpCapabilities,
+  parseScalabilityMode,
+} from "mediasoup";
+
 import { AwaitQueue } from "awaitqueue";
 //Local Imports
 import RoomManagement from "./src/RoomManagement";
 import { Express } from "express-serve-static-core";
 import roomsRoute from "./routes/rooms";
-
+import Logger from "./models/Logger";
+import { Socket } from "socket.io";
+import { join_room_payload } from "./src/socketInterfaces";
 const config = require("./config");
+const logger = new Logger("");
 dotenv.config();
 
 const roomManagement = new RoomManagement();
@@ -26,8 +40,7 @@ let server: { listen: (arg0: string | number) => void };
 //Socket.io Server
 let io: { on: (arg0: string, arg1: (socket: any) => void) => void };
 // mediasoup Workers.
-// @type {Array<mediasoup.Worker>}
-const mediasoupWorkers = [];
+const mediasoupWorkers: Array<types.Worker> = [];
 // Index of next mediasoup Worker to use.
 // @type {Number}
 let nextMediasoupWorkerIdx = 0;
@@ -56,8 +69,6 @@ async function init() {
   await initSockets();
   // Run a mediasoup Worker.
   await runMediasoupWorkers();
-
-  //Call Server Management api and say the server is up and running.
 }
 
 //======================================================================================================
@@ -112,9 +123,24 @@ async function initSockets() {
 }
 
 function attachSocketEvents() {
-  io.on("connection", (socket: any) => {
-    console.log("a user connected with id", socket.id);
+  io.on("connection", (socket: Socket) => {
+    onSocketConnection(socket);
+    socket.on("join_room", (payload: join_room_payload) => {
+      const { roomId } = payload;
+      roomManagement.createOrJoinRoom(roomId, socket.id, socket);
+    });
+    socket.on("disconnect", () => {
+      roomManagement.leaveRoom(socket.id);
+    });
   });
+
+  function onSocketConnection(socket: Socket) {
+    console.log("a user connected with id", socket.id);
+    socket.emit("connection_established", {
+      isConnected: true,
+      peerId: socket.id,
+    });
+  }
 }
 
 //======================================================================================================
@@ -127,9 +153,10 @@ function attachSocketEvents() {
 async function runMediasoupWorkers() {
   const { numWorkers } = config.mediasoup;
 
-  console.log("configuring " + numWorkers + " workers");
+  logger.info("running %d mediasoup Workers...", numWorkers);
+
   for (let i = 0; i < numWorkers; ++i) {
-    const worker = await mediasoup.createWorker({
+    const worker = await createWorker({
       logLevel: config.mediasoup.workerSettings.logLevel,
       logTags: config.mediasoup.workerSettings.logTags,
       rtcMinPort: Number(config.mediasoup.workerSettings.rtcMinPort),
@@ -143,3 +170,17 @@ async function runMediasoupWorkers() {
     mediasoupWorkers.push(worker);
   }
 }
+
+/**
+ * Get next mediasoup Worker.
+ */
+function getMediasoupWorker(): types.Worker {
+  const worker: types.Worker = mediasoupWorkers[nextMediasoupWorkerIdx];
+
+  if (++nextMediasoupWorkerIdx === mediasoupWorkers.length)
+    nextMediasoupWorkerIdx = 0;
+
+  return worker;
+}
+
+export { getMediasoupWorker };

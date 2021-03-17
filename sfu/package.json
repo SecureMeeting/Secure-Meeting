@@ -6,21 +6,24 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node dist/server.js",
-    "dev": "nodemon src/server.ts",
+    "dev": "DEBUG=${DEBUG:='*mediasoup* *INFO* *WARN* *ERROR*'} nodemon src/server.ts",
     "build": "tsc --build"
   },
-  "author": "Andrew D'Angelo",
+  "author": "SecureMeeting.org",
   "license": "ISC",
   "dependencies": {
+    "@types/socket.io": "^2.1.13",
     "awaitqueue": "^2.3.3",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
+    "debug": "^2.6.9",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "http": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
     "mediasoup": "^3.6.32",
     "moment": "^2.29.1",
+    "sctp": "^1.0.0",
     "socket.io": "^3.0.5"
   },
   "devDependencies": {
