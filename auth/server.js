@@ -17,7 +17,7 @@ console.log("|  Auth Microservice is running  |");
 console.log("----------------------------------");
 console.log("Environment: ", process.env.NODE_ENV);
 console.log("Client: ", process.env.CLIENT);
-console.log("Running on port:", PORT);
+console.log("Running on port: ", PORT);
 
 /* ------------------------ Connect to Mongo Database ----------------------- */
 connectDB();

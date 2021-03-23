@@ -17,7 +17,7 @@ export default class RoomManagement {
       //join room
       let room = RoomManagement.rooms.get(roomName);
       if (room) {
-        const newPeer = new Peer(socketId, socket);
+        const newPeer = new Peer(socketId, socket, roomName);
         room.addPeer(newPeer);
         console.log("joined room");
       }
@@ -27,10 +27,10 @@ export default class RoomManagement {
       var newRoom: Room = await Room.create(
         roomName,
         mediasoupWorker,
-        false,
+        true,
         false
       );
-      const newPeer = new Peer(socketId, socket);
+      const newPeer = new Peer(socketId, socket, roomName);
       newRoom.addPeer(newPeer);
       console.log("created room");
       RoomManagement.rooms.set(roomName, newRoom);
@@ -59,13 +59,15 @@ export default class RoomManagement {
 
   leaveRoom(peerId: string) {
     const room = this.findRoomByPeer(peerId);
-    if (room) {
-      console.log("removed peer from room");
+    const peer = this.findPeer(peerId);
+    if (room && peer) {
+      console.log("removed peer from room:", room.roomId);
+      peer.announce("peerClosed", { peerId: peerId });
       room.removePeer(peerId);
-    }
-    if (room?.getNumberOfPeers() === 0) {
-      console.log("room is empty so room closed:", room._roomId);
-      RoomManagement.rooms.delete(room._roomId);
+      if (room.getNumberOfPeers() === 0) {
+        console.log("room is empty so room closed:", room._roomId);
+        RoomManagement.rooms.delete(room._roomId);
+      }
     }
   }
 }

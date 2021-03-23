@@ -11,13 +11,22 @@ import {
   connectWebRtcTransport,
   join,
   produce,
+  resumeConsumer,
+  getRoom,
+  getAllRooms,
+  closeProducer,
 } from "../controllers/roomsController";
 import checkRoom from "../middleware/checkRoom";
 import checkPeer from "../middleware/checkPeer";
 
 var router = express.Router();
 
-router.route("/:roomId").get(checkRoom, getRouterRtpCapabilities);
+router.route("/all").get(getAllRooms);
+router.route("/:roomId").get(checkRoom, getRoom);
+
+router
+  .route("/:roomId/getRouterRtpCapabilities")
+  .get(checkRoom, getRouterRtpCapabilities);
 router.route("/:roomId/broadcasters").post(checkRoom, createBroadcaster);
 router
   .route("/:roomId/broadcasters/:broadcasterId")
@@ -46,4 +55,11 @@ router.route("/:roomId/peerId/:peerId/join").post(checkRoom, checkPeer, join);
 router
   .route("/:roomId/peerId/:peerId/produce")
   .post(checkRoom, checkPeer, produce);
+router
+  .route("/:roomId/peerId/:peerId/resumeConsumer")
+  .post(checkRoom, checkPeer, resumeConsumer);
+router
+  .route("/:roomId/peerId/:peerId/closeProducer")
+  .post(checkRoom, checkPeer, closeProducer);
+
 export default router;

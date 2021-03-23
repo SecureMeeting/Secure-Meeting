@@ -372,6 +372,11 @@
   "resolved" "https://registry.npmjs.org/ci-info/-/ci-info-2.0.0.tgz"
   "version" "2.0.0"
 
+"circular-json@^0.5.9":
+  "integrity" "sha512-4ivwqHpIFJZBuhN3g/pEcdbnGUywkBblloGbkglyloVjjR3uT6tieI89MVOfbP2tHX5sgb01FuLgAOzebNlJNQ=="
+  "resolved" "https://registry.npmjs.org/circular-json/-/circular-json-0.5.9.tgz"
+  "version" "0.5.9"
+
 "clang-tools-prebuilt@^0.1.4":
   "integrity" "sha1-8gINNlN2CMDPrQeuvglNmXMFkLM="
   "resolved" "https://registry.npmjs.org/clang-tools-prebuilt/-/clang-tools-prebuilt-0.1.4.tgz"

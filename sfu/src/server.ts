@@ -89,19 +89,6 @@ function attachApiEndpoints() {
     res.send("Successfully hit the SFU api!");
   });
   app.use("/rooms", roomsRoute);
-  /**
-   * Error handler.
-   */
-  app.use((error: any, req: any, res: any, next: any) => {
-    if (error) {
-      error.status = error.status || (error.name === "TypeError" ? 400 : 500);
-
-      res.statusMessage = error.message;
-      res.status(error.status).send(String(error));
-    } else {
-      next();
-    }
-  });
 }
 
 //======================================================================================================

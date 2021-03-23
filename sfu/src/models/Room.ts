@@ -3,6 +3,7 @@ import Logger from "./Logger";
 const config = require("../config");
 const logger = new Logger("Room");
 import Peer from "./Peer";
+import Bot from "./Bot";
 
 import {
   types,
@@ -19,7 +20,7 @@ export default class Room extends EventEmitter {
     roomId: String,
     mediasoupWorker: types.Worker,
     forceH264: Boolean = false,
-    forceVP9: Boolean = false
+    forceVP9: Boolean = true
   ) {
     logger.info(
       "create() [roomId:%s, forceH264:%s, forceVP9:%s]",
@@ -54,10 +55,12 @@ export default class Room extends EventEmitter {
       mediaCodecs,
     });
 
-    return new Room(roomId, mediasoupRouter);
+    const bot = await Bot.create({ mediasoupRouter });
+
+    return new Room(roomId, mediasoupRouter, bot);
   }
 
-  constructor(roomId: String, mediasoupRouter: types.Router) {
+  constructor(roomId: String, mediasoupRouter: types.Router, bot: Bot) {
     super();
     this.setMaxListeners(Infinity);
 
@@ -90,6 +93,10 @@ export default class Room extends EventEmitter {
     // @type {mediasoup.Router}
     this._mediasoupRouter = mediasoupRouter;
 
+    // DataChannel bot.
+    // @type {Bot}
+    this._bot = bot;
+
     // Network throttled.
     // @type {Boolean}
     this._networkThrottled = false;
@@ -107,6 +114,8 @@ export default class Room extends EventEmitter {
     sctpCapabilities: types.SctpCapabilities | undefined
   ) {
     console.log("ROOM | createWebRtcTransport()");
+    console.log("Producing:", producing);
+    console.log("Consuming:", consuming);
     const webRtcTransportOptions = {
       ...config.mediasoup.webRtcTransportOptions,
       enableSctp: Boolean(sctpCapabilities),
@@ -148,6 +157,7 @@ export default class Room extends EventEmitter {
     transportId: string,
     dtlsParameters: types.DtlsParameters
   ) {
+    console.log("connectWebRtcTransport() with id#", transportId);
     const transport = peer.transports.get(transportId);
     if (!transport)
       throw new Error(`transport with id "${transportId}" not found`);
@@ -165,8 +175,6 @@ export default class Room extends EventEmitter {
       throw new Error("Peer already joined");
     }
 
-    console.log("PEER JOINING!!!!");
-
     peer.joined = true;
     peer.device = device;
     peer.rtpCapabilities = rtpCapabilities;
@@ -176,6 +184,9 @@ export default class Room extends EventEmitter {
       ...this._getJoinedPeers(),
       ...this._broadcasters.values(),
     ];
+
+    console.log("joinedPeers");
+    console.log(joinedPeers);
 
     const peerInfos = joinedPeers
       .filter((joinedPeer: Peer) => joinedPeer.socketId !== peer.socketId)
@@ -253,6 +264,7 @@ export default class Room extends EventEmitter {
       return;
     }
 
+    console.log("SETTING CONSUMER");
     // Store the Consumer into the protoo consumerPeer data Object.
     consumerPeer.consumers.set(consumer.id, consumer);
 
@@ -290,6 +302,7 @@ export default class Room extends EventEmitter {
 
     try {
       console.log("Notifying peer about new consumer");
+
       await consumerPeer.notify("newConsumer", {
         peerId: producerPeer.socketId,
         producerId: producer.id,
@@ -305,12 +318,9 @@ export default class Room extends EventEmitter {
       // the Consumer so the remote endpoint will receive the a first RTP packet
       // of this new stream once its PeerConnection is already ready to process
       // and associate it.
-      consumer.resume();
 
-      consumerPeer.notify("consumerScore", {
-        consumerId: consumer.id,
-        score: consumer.score,
-      });
+      //resume the consumer in the "resumeConsumer function"
+      //consumer.resume();
     } catch (error) {
       console.error("_createConsumer() | failed:", error);
     }
@@ -343,6 +353,7 @@ export default class Room extends EventEmitter {
       // keyFrameRequestDelay: 5000
     });
 
+    console.log("storing producer in peer:", producer.id);
     // Store the Producer into the protoo Peer data Object.
     peer.producers.set(producer.id, producer);
 
@@ -373,6 +384,44 @@ export default class Room extends EventEmitter {
     return { id: producer.id };
   }
 
+  async resumeConsumer(peer: Peer, consumerId: string) {
+    console.log("resumeConsumer() resuming consumer #", consumerId);
+    // Ensure the Peer is joined.
+    if (!peer.joined) {
+      throw new Error("Peer not yet joined");
+    }
+
+    const consumer = peer.consumers.get(consumerId);
+
+    if (!consumer)
+      throw new Error(`consumer with id "${consumerId}" not found`);
+
+    await consumer.resume();
+
+    peer.notify("consumerScore", {
+      consumerId: consumer.id,
+      score: consumer.score,
+    });
+
+    return;
+  }
+
+  async closeProducer(peer: Peer, producerId: string) {
+    console.log("closeProducer() closing producer #", producerId);
+    // Ensure the Peer is joined.
+    if (!peer.joined) {
+      throw new Error("Peer not yet joined");
+    }
+
+    const producer = peer.producers.get(producerId);
+
+    if (!producer) {
+      throw new Error(`producer with id "${producerId}" not found`);
+    }
+
+    await producer.pause();
+  }
+
   getPeer(peerId: string) {
     return this._peers.get(peerId);
   }
@@ -390,7 +439,9 @@ export default class Room extends EventEmitter {
   }
 
   addPeer(peer: Peer) {
+    console.log("adding peer to room!!!");
     this._peers.set(peer.socketId, peer);
+    console.log(this._peers);
   }
 
   removePeer(peerId: string) {

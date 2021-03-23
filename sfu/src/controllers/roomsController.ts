@@ -1,4 +1,5 @@
 import roomManagement from "../src/RoomManagement";
+const CircularJSON = require("circular-json");
 /**
  * API GET resource that returns the mediasoup Router RTP capabilities of
  * the room.
@@ -205,6 +206,67 @@ export async function produce(req: any, res: any, next: any) {
       appData
     );
     res.status(200).json(produceResponse);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function resumeConsumer(req: any, res: any, next: any) {
+  const { consumerId } = req.body;
+
+  try {
+    let resumeConsumerResponse = await req.room.resumeConsumer(
+      req.peer,
+      consumerId
+    );
+    res.status(200).json(resumeConsumerResponse);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function closeProducer(req: any, res: any, next: any) {
+  const { producerId } = req.body;
+
+  try {
+    let closeProducerResponse = await req.room.closeProducer(
+      req.peer,
+      producerId
+    );
+    res.status(200).json(closeProducerResponse);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getRoom(req: any, res: any, next: any) {
+  let peers = req.room._peers;
+  let peersArr = [];
+
+  for (let [key, value] of peers) {
+    let peerCopy = JSON.parse(CircularJSON.stringify(value));
+    delete peerCopy.socket;
+    console.log(peerCopy);
+    peerCopy.transports = Array.from(value.transports);
+    peerCopy.producers = Array.from(value.producers);
+    peerCopy.consumers = Array.from(value.consumers);
+
+    peersArr.push(peerCopy);
+  }
+
+  try {
+    res.status(200).json(peersArr);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getAllRooms(req: any, res: any, next: any) {
+  const map = roomManagement.rooms;
+
+  let obj = Object.fromEntries(map);
+  try {
+    res.status(200).json(obj);
   } catch (error) {
     console.error(error);
   }
